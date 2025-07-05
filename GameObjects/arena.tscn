@@ -29,6 +29,11 @@ shape = SubResource("RectangleShape2D_75hvw")
 scale = Vector2(200, 4)
 texture = SubResource("CanvasTexture_g8s8v")
 
-[node name="Divider" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
+[node name="Ceiling" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling"]
+shape = SubResource("RectangleShape2D_75hvw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ceiling"]
+scale = Vector2(200, 4)
 texture = SubResource("CanvasTexture_g8s8v")
