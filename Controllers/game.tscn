@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg7akaw07a4yc"]
+
+[ext_resource type="Script" uid="uid://d1i4b847bmipi" path="res://Controllers/game.gd" id="1_80nbo"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_80nbo")
+
+[node name="RoundTimer" type="Timer" parent="."]
