@@ -16,7 +16,6 @@ zoom = Vector2(4, 4)
 [node name="Paddles" type="Node" parent="."]
 
 [node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_03tkf")]
-position = Vector2(-70, 0)
 facing_direction = Vector2(0, -1)
 characterInput = NodePath("CharacterInput")
 

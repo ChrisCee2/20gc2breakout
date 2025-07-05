@@ -3,7 +3,6 @@ class_name Breakout extends Node2D
 # @onready var game: Game = $Game
 
 @onready var paddle: Paddle = $Paddles/Paddle
-
 @onready var arena: Arena = $Arena
 
 func _ready() -> void:
@@ -15,5 +14,5 @@ func _process(delta: float) -> void:
 	# game.update()
 
 func _physics_process(delta: float) -> void:
-	paddle.physics_update()
+	paddle.physics_update(arena.get_left_bound(), arena.get_right_bound())
 	# game.physics_update()
