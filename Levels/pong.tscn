@@ -1,0 +1,171 @@
+[gd_scene load_steps=10 format=3 uid="uid://bopsmkb6xxr4w"]
+
+[ext_resource type="Script" uid="uid://drbaq2tlqbfdp" path="res://Levels/pong.gd" id="1_gkwe1"]
+[ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_axg6w"]
+[ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/ball.tscn" id="3_7rnn0"]
+[ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_5qs3y"]
+[ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_4clcx"]
+[ext_resource type="PackedScene" uid="uid://bal8erhwgntb8" path="res://InputMachines/computer_input.tscn" id="6_7rnn0"]
+[ext_resource type="PackedScene" uid="uid://dg7akaw07a4yc" path="res://Controllers/game.tscn" id="6_rnhn5"]
+[ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="7_a70rt"]
+[ext_resource type="PackedScene" uid="uid://clqb3oci8tpyh" path="res://Menus/pause_menu.tscn" id="8_axg6w"]
+
+[node name="Pong" type="Node2D"]
+script = ExtResource("1_gkwe1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(7, 7)
+
+[node name="Arena" parent="." instance=ExtResource("2_axg6w")]
+
+[node name="Ball" parent="." node_paths=PackedStringArray("paddles", "game", "arena") instance=ExtResource("3_7rnn0")]
+paddles = NodePath("../Paddles")
+game = NodePath("../Game")
+arena = NodePath("../Arena")
+
+[node name="Paddles" type="Node" parent="."]
+
+[node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput", "game", "arena") instance=ExtResource("4_5qs3y")]
+position = Vector2(-70, 0)
+facing_direction = Vector2(1, 0)
+characterInput = NodePath("CharacterInput")
+game = NodePath("../../Game")
+arena = NodePath("../../Arena")
+
+[node name="CharacterInput" parent="Paddles/Paddle" instance=ExtResource("5_4clcx")]
+upKey = "paddle_up_1"
+downKey = "paddle_down_1"
+
+[node name="Paddle1" parent="Paddles" node_paths=PackedStringArray("characterInput", "game", "arena") instance=ExtResource("4_5qs3y")]
+position = Vector2(70, 0)
+facing_direction = Vector2(-1, 0)
+characterInput = NodePath("CharacterInput")
+game = NodePath("../../Game")
+arena = NodePath("../../Arena")
+
+[node name="CharacterInput" parent="Paddles/Paddle1" instance=ExtResource("5_4clcx")]
+upKey = "paddle_up_2"
+downKey = "paddle_down_2"
+
+[node name="ComputerInput" parent="Paddles/Paddle1" node_paths=PackedStringArray("game", "arena", "ball", "paddle") instance=ExtResource("6_7rnn0")]
+game = NodePath("../../../Game")
+arena = NodePath("../../../Arena")
+ball = NodePath("../../../Ball")
+paddle = NodePath("..")
+
+[node name="Game" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "scores", "ui_control", "win_label", "return_to_menu_label", "pause_menu") instance=ExtResource("6_rnhn5")]
+ball = NodePath("../Ball")
+arena = NodePath("../Arena")
+paddles = NodePath("../Paddles")
+scores = NodePath("../Scores")
+ui_control = NodePath("../WinControl")
+win_label = NodePath("../WinControl/GridContainer/WinLabel")
+return_to_menu_label = NodePath("../WinControl/GridContainer/ReturnToMenuLabel")
+pause_menu = NodePath("../PauseMenu")
+
+[node name="Scores" type="Node" parent="."]
+
+[node name="Player 1" type="Control" parent="Scores"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -82.3
+offset_top = -46.3
+offset_bottom = 46.3
+
+[node name="Label" type="Label" parent="Scores/Player 1"]
+z_index = -1000
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -20.5
+offset_right = 25.0
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.140447, 0.140447, 0.140447, 1)
+theme_override_fonts/font = ExtResource("7_a70rt")
+theme_override_font_sizes/font_size = 45
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player 2" type="Control" parent="Scores"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -46.3
+offset_right = 82.3
+offset_bottom = 46.3
+
+[node name="Label" type="Label" parent="Scores/Player 2"]
+z_index = -1000
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -20.5
+offset_right = 25.0
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.141176, 0.141176, 0.141176, 1)
+theme_override_fonts/font = ExtResource("7_a70rt")
+theme_override_font_sizes/font_size = 45
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinControl" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = -82.3
+offset_top = -46.3
+offset_right = 82.3
+offset_bottom = 46.3
+
+[node name="GridContainer" type="GridContainer" parent="WinControl"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinLabel" type="Label" parent="WinControl/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_a70rt")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnToMenuLabel" type="Label" parent="WinControl/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_a70rt")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("game") instance=ExtResource("8_axg6w")]
+offset_right = 0.0
+offset_bottom = 0.0
+game = NodePath("../Game")

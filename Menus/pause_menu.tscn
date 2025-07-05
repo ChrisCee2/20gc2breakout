@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://clqb3oci8tpyh"]
+
+[ext_resource type="Script" uid="uid://cntwue4luc8if" path="res://Menus/pause_menu.gd" id="1_ik086"]
+[ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="2_2og8s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p3jrs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at0u2"]
+
+[node name="PauseMenu" type="Control"]
+z_index = 100
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -987.4
+offset_bottom = -555.4
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ik086")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.486275)
+
+[node name="GridContainer" type="GridContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -12.0
+offset_right = 23.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/v_separation = 8
+
+[node name="ResumeButton" type="Button" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2og8s")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_at0u2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p3jrs")
+text = "Resume"
+
+[node name="BackButton" type="Button" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2og8s")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_at0u2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_p3jrs")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p3jrs")
+text = "Back"
