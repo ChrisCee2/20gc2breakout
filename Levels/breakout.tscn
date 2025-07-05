@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://c32b26kgd1gdw"]
+[gd_scene load_steps=7 format=3 uid="uid://c32b26kgd1gdw"]
 
 [ext_resource type="Script" uid="uid://dd0mv6kkmv742" path="res://Levels/breakout.gd" id="1_jqo3j"]
+[ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_bsmnu"]
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_03tkf"]
 [ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_dpr4m"]
 [ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="8_2likq"]
@@ -10,7 +11,7 @@
 script = ExtResource("1_jqo3j")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(7, 7)
+zoom = Vector2(4, 4)
 
 [node name="Paddles" type="Node" parent="."]
 
@@ -96,7 +97,8 @@ theme_override_font_sizes/font_size = 9
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("game") instance=ExtResource("9_vlbfm")]
+[node name="PauseMenu" parent="." instance=ExtResource("9_vlbfm")]
 offset_right = 0.0
 offset_bottom = 0.0
-game = NodePath("")
+
+[node name="Arena" parent="." instance=ExtResource("2_bsmnu")]

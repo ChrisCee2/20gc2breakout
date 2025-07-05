@@ -4,7 +4,10 @@ class_name Breakout extends Node2D
 
 @onready var paddle: Paddle = $Paddles/Paddle
 
-func _ready() -> void: return
+@onready var arena: Arena = $Arena
+
+func _ready() -> void:
+	arena.set_up()
 	# game.start()
 
 func _process(delta: float) -> void:
