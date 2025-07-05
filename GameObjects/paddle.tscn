@@ -1,13 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b53hcff8gnb10"]
+[gd_scene load_steps=5 format=3 uid="uid://b53hcff8gnb10"]
 
 [ext_resource type="Script" uid="uid://dak2v0xpp6j7c" path="res://GameObjects/paddle.gd" id="1_tbytw"]
 [ext_resource type="PackedScene" uid="uid://bxm45k22yx15g" path="res://Controllers/CharacterController.tscn" id="2_r112f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ut3sq"]
-size = Vector2(4, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0sbc1"]
-size = Vector2(4, 20)
+size = Vector2(20, 4)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_tbytw"]
 specular_color = Color(0.460172, 0.233411, 0.453389, 1)
@@ -18,13 +15,9 @@ script = ExtResource("1_tbytw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ut3sq")
 
-[node name="ShapeCast2D" type="ShapeCast2D" parent="."]
-shape = SubResource("RectangleShape2D_0sbc1")
-target_position = Vector2(0, 0)
-
 [node name="CharacterController" parent="." node_paths=PackedStringArray("object") instance=ExtResource("2_r112f")]
 object = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(4, 20)
+scale = Vector2(20, 4)
 texture = SubResource("CanvasTexture_tbytw")

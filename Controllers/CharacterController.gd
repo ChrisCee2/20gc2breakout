@@ -6,14 +6,14 @@ class_name CharacterController extends Node
 
 func update(
 	speed_multiplier: float,
-	distance_from_lower_bound: float, 
-	distance_from_upper_bound: float):
+	distance_from_left_bound: float, 
+	distance_from_right_bound: float):
 	if not input:
 		return
-	var y: int = input.getDirection()
-	if y < 0:
-		y *= min(velocity, distance_from_upper_bound)
-	elif y > 0:
-		y *= min(velocity, distance_from_lower_bound)
+	var x: int = input.getDirection()
+	if x < 0:
+		x *= min(velocity, distance_from_left_bound)
+	elif x > 0:
+		x *= min(velocity, distance_from_right_bound)
 		
-	object.global_position += Vector2(0, y * speed_multiplier)
+	object.global_position += Vector2(x * speed_multiplier, 0)

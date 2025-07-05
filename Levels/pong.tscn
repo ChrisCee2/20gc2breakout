@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bopsmkb6xxr4w"]
 
-[ext_resource type="Script" uid="uid://drbaq2tlqbfdp" path="res://Levels/pong.gd" id="1_gkwe1"]
+[ext_resource type="Script" uid="uid://drbaq2tlqbfdp" path="res://Levels/pong.gd" id="1_7rnn0"]
 [ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_axg6w"]
 [ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/ball.tscn" id="3_7rnn0"]
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_5qs3y"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://clqb3oci8tpyh" path="res://Menus/pause_menu.tscn" id="8_axg6w"]
 
 [node name="Pong" type="Node2D"]
-script = ExtResource("1_gkwe1")
+script = ExtResource("1_7rnn0")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(7, 7)
@@ -25,27 +25,23 @@ arena = NodePath("../Arena")
 
 [node name="Paddles" type="Node" parent="."]
 
-[node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput", "game", "arena") instance=ExtResource("4_5qs3y")]
+[node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_5qs3y")]
 position = Vector2(-70, 0)
 facing_direction = Vector2(1, 0)
 characterInput = NodePath("CharacterInput")
-game = NodePath("../../Game")
-arena = NodePath("../../Arena")
 
 [node name="CharacterInput" parent="Paddles/Paddle" instance=ExtResource("5_4clcx")]
-upKey = "paddle_up_1"
-downKey = "paddle_down_1"
+leftKey = null
+rightKey = null
 
-[node name="Paddle1" parent="Paddles" node_paths=PackedStringArray("characterInput", "game", "arena") instance=ExtResource("4_5qs3y")]
+[node name="Paddle1" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_5qs3y")]
 position = Vector2(70, 0)
 facing_direction = Vector2(-1, 0)
 characterInput = NodePath("CharacterInput")
-game = NodePath("../../Game")
-arena = NodePath("../../Arena")
 
 [node name="CharacterInput" parent="Paddles/Paddle1" instance=ExtResource("5_4clcx")]
-upKey = "paddle_up_2"
-downKey = "paddle_down_2"
+leftKey = null
+rightKey = null
 
 [node name="ComputerInput" parent="Paddles/Paddle1" node_paths=PackedStringArray("game", "arena", "ball", "paddle") instance=ExtResource("6_7rnn0")]
 game = NodePath("../../../Game")

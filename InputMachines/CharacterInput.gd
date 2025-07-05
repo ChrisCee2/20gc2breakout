@@ -1,8 +1,8 @@
 class_name CharacterInput extends InputInterface
 
-@export var upKey: String
-@export var downKey: String
+@export var leftKey: String
+@export var rightKey: String
 
 func update() -> void:
-	isPressingUp = Input.is_action_pressed(upKey)
-	isPressingDown = Input.is_action_pressed(downKey)
+	isPressingLeft = Input.is_action_pressed(leftKey)
+	isPressingRight = Input.is_action_pressed(rightKey)

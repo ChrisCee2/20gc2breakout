@@ -2,8 +2,8 @@ class_name Paddle extends StaticBody2D
 
 @export var facing_direction: Vector2 = Vector2(0,0)
 @export var characterInput: InputInterface
-@export var game: Game
-@export var arena: Arena
+# @export var game: Game
+# @export var arena: Arena
 @export_range(1, 89) var maxBounceAngle: float = 60
 @onready var controller = $CharacterController
 
@@ -17,14 +17,15 @@ func _ready() -> void:
 		controller.input = characterInput
 
 func update():
-	if controller and arena:
+	#if controller and arena:
 		if controller.input != null:
 			controller.input.update()
 
 func physics_update() -> void:
 	if controller:
 		controller.update(
-			game.current_speed_multiplier,
+			#game.current_speed_multiplier,
+			1,
 			getDistanceFromLowerBound(), 
 			getDistanceFromUpperBound())
 
@@ -33,11 +34,13 @@ func getSize() -> Vector2:
 
 func getDistanceFromUpperBound() -> float:
 	var paddleSize: Vector2 = getSize()
-	return (global_position.y - (paddleSize.y / 2)) - arena.getUpperBound()
+	return 100
+	# return (global_position.y - (paddleSize.y / 2)) - arena.getUpperBound()
 
 func getDistanceFromLowerBound() -> float:
 	var paddleSize: Vector2 = getSize()
-	return arena.getLowerBound() - (global_position.y + (paddleSize.y / 2))
+	return 100
+	# return arena.getLowerBound() - (global_position.y + (paddleSize.y / 2))
 
 func getBounceAngle(bouncePosition: Vector2) -> float:
 	var distanceFromCenter = global_position - bouncePosition
