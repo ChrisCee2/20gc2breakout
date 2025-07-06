@@ -11,6 +11,8 @@ func set_input(input_interface: InputInterface) -> void:
 	controller.input = input_interface
 
 func _ready() -> void:
+	# Do this in game eventually
+	global_position -= Vector2.UP * 10
 	if characterInput:
 		controller.input = characterInput
 
