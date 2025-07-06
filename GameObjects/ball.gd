@@ -4,7 +4,7 @@ signal bounce_wall
 signal bounce_paddle
 
 @export var paddles: Node
-@export var game: Game
+# @export var game: Game
 @export var arena: Arena
 @export var start_speed: float = 1.0
 
@@ -56,19 +56,19 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 		curr_velocity = scaleVelocityForWallBounce(curr_velocity, distance_from_upper_bound)
 	elif velocity.y > 0 and velocity.y < 0 and distance_from_lower_bound < curr_velocity.y:
 		curr_velocity = scaleVelocityForWallBounce(curr_velocity, distance_from_lower_bound)
-	global_position += curr_velocity * game.current_speed_multiplier
+	global_position += curr_velocity #* game.current_speed_multiplier
 
 func getBounceVelocity() -> Vector2:
 	return Vector2.ZERO
 
-func getSize() -> Vector2:
+func get_size() -> Vector2:
 	return sprite.scale
 
 func isBallOverlappingPaddle(paddle: Paddle) -> bool:
-	return paddle.global_position.x + (paddle.getSize().x / 2) >= global_position.x - (getSize().x / 2) && \
-	paddle.global_position.x - (paddle.getSize().x / 2) <= global_position.x + (getSize().x / 2) && \
-	paddle.global_position.y + (paddle.getSize().y / 2) >= global_position.y - (getSize().y / 2) && \
-	paddle.global_position.y - (paddle.getSize().y / 2) <= global_position.y + (getSize().y / 2)
+	return paddle.global_position.x + (paddle.get_size().x / 2) >= global_position.x - (get_size().x / 2) && \
+	paddle.global_position.x - (paddle.get_size().x / 2) <= global_position.x + (get_size().x / 2) && \
+	paddle.global_position.y + (paddle.get_size().y / 2) >= global_position.y - (get_size().y / 2) && \
+	paddle.global_position.y - (paddle.get_size().y / 2) <= global_position.y + (get_size().y / 2)
 
 func handlePaddleBounce() -> void:
 	var collidingPaddles: Array[Paddle] = []
@@ -78,10 +78,6 @@ func handlePaddleBounce() -> void:
 			if paddle not in paddlesBeingCollidedWith:
 				AudioManager.play_audio(hit_paddle_sfx)
 				bounce_paddle.emit()
-				var direction_x = 1 if velocity.x < 0 else -1
-				var angle = deg_to_rad(paddle.getBounceAngle(global_position))
-				var x = cos(angle)
-				var y = sin(angle)
 				velocity = paddle.get_bounce_direction(global_position) * start_speed;
 	paddlesBeingCollidedWith = collidingPaddles
 
@@ -105,11 +101,11 @@ func scaleVelocityForWallBounce(current_velocity: Vector2, y: float) -> Vector2:
 func getDistanceFromUpperBound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = getSize()
-	return (global_position.y - (paddleSize.y / 2)) - arena.getUpperBound()
+	var paddleSize: Vector2 = get_size()
+	return (global_position.y - (paddleSize.y / 2)) - arena.get_upper_bound()
 
 func getDistanceFromLowerBound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = getSize()
-	return arena.getLowerBound() - (global_position.y + (paddleSize.y / 2))
+	var paddleSize: Vector2 = get_size()
+	return arena.get_lower_bound() - (global_position.y + (paddleSize.y / 2))

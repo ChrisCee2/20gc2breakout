@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c32b26kgd1gdw"]
+[gd_scene load_steps=8 format=3 uid="uid://c32b26kgd1gdw"]
 
 [ext_resource type="Script" uid="uid://dd0mv6kkmv742" path="res://Levels/breakout.gd" id="1_jqo3j"]
 [ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_bsmnu"]
+[ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/ball.tscn" id="3_vobm1"]
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_03tkf"]
 [ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_dpr4m"]
 [ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="8_2likq"]
@@ -16,7 +17,6 @@ zoom = Vector2(4, 4)
 [node name="Paddles" type="Node" parent="."]
 
 [node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_03tkf")]
-facing_direction = Vector2(0, -1)
 characterInput = NodePath("CharacterInput")
 
 [node name="CharacterInput" parent="Paddles/Paddle" instance=ExtResource("5_dpr4m")]
@@ -101,3 +101,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="Arena" parent="." instance=ExtResource("2_bsmnu")]
+
+[node name="Ball" parent="." node_paths=PackedStringArray("paddles", "arena") instance=ExtResource("3_vobm1")]
+paddles = NodePath("../Paddles")
+arena = NodePath("../Arena")
