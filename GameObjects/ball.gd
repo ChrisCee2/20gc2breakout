@@ -7,8 +7,10 @@ signal bounce_paddle
 # @export var game: Game
 @export var arena: Arena
 @export var start_speed: float = 1.0
+@export_range(1, 89) var max_start_angle: float = 60
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var shape_cast: ShapeCast2D = $ShapeCast2D
 
 var hit_wall_sfx = preload("res://Assets/SFX/HitWallSFX.wav")
 var hit_paddle_sfx = preload("res://Assets/SFX/HitPaddleSFX.wav")
@@ -16,7 +18,10 @@ var hit_paddle_sfx = preload("res://Assets/SFX/HitPaddleSFX.wav")
 var is_active: bool = false
 var current_speed: float = start_speed
 var velocity: Vector2 = Vector2.ZERO
-var paddlesBeingCollidedWith: Array[Paddle] = []
+var current_paddle_collision: Paddle = null
+
+func _ready() -> void:
+	restart()
 
 func start():
 	is_active = true
@@ -24,21 +29,18 @@ func start():
 func stop():
 	is_active = false
 
-func restart(shouldStartLeft: bool) -> void:
-	paddlesBeingCollidedWith = []
+func restart() -> void:
+	current_speed = start_speed
+	current_paddle_collision = null
 	var start_position: Vector2 = Vector2.ZERO
 	if arena:
 		start_position = arena.global_position
 	global_position = start_position
-	var angle = deg_to_rad(randf_range(20, 60))
-	var x = cos(angle) * (-1 if shouldStartLeft else 1)
-	var y = sin(angle) * (-1 if randf() < 0.5 else 1)
+	var angle = deg_to_rad(-randf_range(1, max_start_angle))
+	var x = cos(angle)
+	var y = sin(angle)
 	velocity = start_speed * Vector2(x, y).normalized()
 	start()
-	current_speed = start_speed
-
-func _ready() -> void:
-	restart(randf() < 0.5)
 
 func _physics_process(delta: float) -> void:
 	physics_update(getDistanceFromLowerBound(), getDistanceFromUpperBound())
@@ -47,8 +49,15 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	if not is_active:
 		return
 	
-	handlePaddleBounce()
-	handleWallBounce(distance_from_lower_bound, distance_from_upper_bound)
+	var collision = shape_cast.get_collider(0)
+	if collision:
+		if collision is Paddle:
+			if not current_paddle_collision:
+				handle_paddle_bounce(collision)
+		else:
+			handle_bounce(0)
+	elif current_paddle_collision:
+		current_paddle_collision = null
 	var curr_velocity = velocity
 	
 	# If approaching wall and velocity would make it pass wall, make it not
@@ -70,18 +79,13 @@ func isBallOverlappingPaddle(paddle: Paddle) -> bool:
 	paddle.global_position.y + (paddle.get_size().y / 2) >= global_position.y - (get_size().y / 2) && \
 	paddle.global_position.y - (paddle.get_size().y / 2) <= global_position.y + (get_size().y / 2)
 
-func handlePaddleBounce() -> void:
-	var collidingPaddles: Array[Paddle] = []
-	for paddle in paddles.get_children():
-		if paddle is Paddle and isBallOverlappingPaddle(paddle):
-			collidingPaddles.append(paddle)
-			if paddle not in paddlesBeingCollidedWith:
-				AudioManager.play_audio(hit_paddle_sfx)
-				bounce_paddle.emit()
-				velocity = paddle.get_bounce_direction(global_position) * start_speed;
-	paddlesBeingCollidedWith = collidingPaddles
+func handle_paddle_bounce(paddle: Paddle) -> void:
+	AudioManager.play_audio(hit_paddle_sfx)
+	bounce_paddle.emit()
+	velocity = paddle.get_bounce_direction(global_position) * start_speed;
+	current_paddle_collision = paddle
 
-func handleWallBounce(
+func handle_wall_bounce(
 	distance_from_lower_bound: float, 
 	distance_from_upper_bound: float) -> void:
 	if distance_from_lower_bound <= 0 || distance_from_upper_bound <= 0:
@@ -89,6 +93,10 @@ func handleWallBounce(
 		AudioManager.play_audio(hit_wall_sfx)
 		velocity *= Vector2(1.0, -1.0)
 		velocity = velocity.normalized() * current_speed
+
+func handle_bounce(collision_index: int) -> void:
+	var normal = shape_cast.get_collision_normal(collision_index)
+	velocity = velocity.bounce(normal)
 
 func scaleVelocityForWallBounce(current_velocity: Vector2, y: float) -> Vector2:
 	bounce_wall.emit()

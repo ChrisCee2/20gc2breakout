@@ -120,7 +120,7 @@ func reset() -> void:
 func restart_round(shouldStartLeft: bool) -> void:
 	paddle_hits = 0
 	current_speed_multiplier = speed_multiplier
-	ball.restart(shouldStartLeft)
+	#ball.restart(shouldStartLeft)
 	ball.stop()
 	round_timer.start(round_start_time)
 	new_round.emit()
