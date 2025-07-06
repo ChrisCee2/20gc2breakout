@@ -51,20 +51,16 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	
 	var collision = shape_cast.get_collider(0)
 	if collision:
+		var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
 		if collision is Paddle:
 			if not current_paddle_collision:
-				handle_paddle_bounce(collision)
+				handle_paddle_bounce(collision, collision_normal)
 		else:
-			handle_bounce(0)
+			handle_bounce(collision_normal)
 	elif current_paddle_collision:
 		current_paddle_collision = null
 	var curr_velocity = velocity
 	
-	# If approaching wall and velocity would make it pass wall, make it not
-	if velocity.y < 0 and distance_from_upper_bound < curr_velocity.y:
-		curr_velocity = scaleVelocityForWallBounce(curr_velocity, distance_from_upper_bound)
-	elif velocity.y > 0 and velocity.y < 0 and distance_from_lower_bound < curr_velocity.y:
-		curr_velocity = scaleVelocityForWallBounce(curr_velocity, distance_from_lower_bound)
 	global_position += curr_velocity #* game.current_speed_multiplier
 
 func getBounceVelocity() -> Vector2:
@@ -73,30 +69,17 @@ func getBounceVelocity() -> Vector2:
 func get_size() -> Vector2:
 	return sprite.scale
 
-func isBallOverlappingPaddle(paddle: Paddle) -> bool:
-	return paddle.global_position.x + (paddle.get_size().x / 2) >= global_position.x - (get_size().x / 2) && \
-	paddle.global_position.x - (paddle.get_size().x / 2) <= global_position.x + (get_size().x / 2) && \
-	paddle.global_position.y + (paddle.get_size().y / 2) >= global_position.y - (get_size().y / 2) && \
-	paddle.global_position.y - (paddle.get_size().y / 2) <= global_position.y + (get_size().y / 2)
-
-func handle_paddle_bounce(paddle: Paddle) -> void:
+func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 	AudioManager.play_audio(hit_paddle_sfx)
-	bounce_paddle.emit()
-	velocity = paddle.get_bounce_direction(global_position) * start_speed;
 	current_paddle_collision = paddle
+	bounce_paddle.emit()
+	if collision_normal != Vector2.UP.rotated(paddle.rotation):
+		handle_bounce(collision_normal)
+	else:
+		velocity = paddle.get_bounce_direction(global_position) * start_speed;
 
-func handle_wall_bounce(
-	distance_from_lower_bound: float, 
-	distance_from_upper_bound: float) -> void:
-	if distance_from_lower_bound <= 0 || distance_from_upper_bound <= 0:
-		bounce_wall.emit()
-		AudioManager.play_audio(hit_wall_sfx)
-		velocity *= Vector2(1.0, -1.0)
-		velocity = velocity.normalized() * current_speed
-
-func handle_bounce(collision_index: int) -> void:
-	var normal = shape_cast.get_collision_normal(collision_index)
-	velocity = velocity.bounce(normal)
+func handle_bounce(collision_normal: Vector2) -> void:
+	velocity = velocity.bounce(collision_normal)
 
 func scaleVelocityForWallBounce(current_velocity: Vector2, y: float) -> Vector2:
 	bounce_wall.emit()

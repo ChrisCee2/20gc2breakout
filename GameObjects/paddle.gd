@@ -48,8 +48,8 @@ func get_bounce_angle_range() -> Array:
 	]
 
 func get_bounce_direction(ball_position: Vector2) -> Vector2:
-	var distance_from_bottom = get_distance_from_center(ball_position) + (get_size().x / 2)
-	var percent_from_bottom = distance_from_bottom / get_size().x
+	var distance_from_edge = get_distance_from_center(ball_position) + (get_size().x / 2)
+	var percent_from_bottom = distance_from_edge / get_size().x
 	var angle_range = get_bounce_angle_range()
 	var angle: float = angle_range[0] + (angle_range[1] - angle_range[0]) * percent_from_bottom
 	
