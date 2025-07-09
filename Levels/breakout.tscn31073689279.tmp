@@ -106,3 +106,5 @@ offset_bottom = 0.0
 [node name="Ball" parent="." node_paths=PackedStringArray("paddles", "arena") instance=ExtResource("3_vobm1")]
 paddles = NodePath("../Paddles")
 arena = NodePath("../Arena")
+start_speed = 1.0
+max_start_angle = 60.0

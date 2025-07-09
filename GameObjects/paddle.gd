@@ -1,6 +1,5 @@
 class_name Paddle extends StaticBody2D
 
-@export var facing_direction: Vector2 = Vector2(0,0)
 @export var characterInput: InputInterface
 # @export var game: Game
 @export_range(1, 89) var maxBounceAngle: float = 60
@@ -12,6 +11,8 @@ func set_input(input_interface: InputInterface) -> void:
 	controller.input = input_interface
 
 func _ready() -> void:
+	# Do this in game eventually
+	global_position -= Vector2.UP * 10
 	if characterInput:
 		controller.input = characterInput
 
@@ -36,26 +37,21 @@ func get_distance_from_left_bound(left_bound: float) -> float:
 func get_distance_from_right_bound(right_bound: float) -> float:
 	return right_bound - (global_position.x + (get_size().x / 2))
 
-func getBounceAngle(bouncePosition: Vector2) -> float:
-	var distanceFromCenter = global_position - bouncePosition
-	if distanceFromCenter.y == 0:
-		return 0
-	# Flipping sign because negative y is up
-	return -(maxBounceAngle * (distanceFromCenter.y / (get_size().y / 2)))
+# Gets signed distance of a position from the center of a paddle relative to the facing direction of the paddle
+func get_distance_from_center(ball_position: Vector2) -> float:
+	var vector_along_paddle = -Vector2.UP.rotated(rotation).orthogonal()
+	var position_on_paddle = ball_position.project(vector_along_paddle)
+	return (position_on_paddle - global_position).dot(vector_along_paddle)
 
 func get_bounce_angle_range() -> Array:
 	return [
-		facing_direction.angle() - deg_to_rad(maxBounceAngle), 
-		facing_direction.angle() + deg_to_rad(maxBounceAngle),
+		Vector2.UP.rotated(rotation).angle() - deg_to_rad(maxBounceAngle), 
+		Vector2.UP.rotated(rotation).angle() + deg_to_rad(maxBounceAngle),
 	]
 
-func get_bounce_direction(bouncePosition: Vector2) -> Vector2:
-	var percent_from_bottom = ((global_position.y + (get_size().y / 2)) - bouncePosition.y) / get_size().y
-	var bounce_angle_range = get_bounce_angle_range()
-	# Reversing logic only works for paddles that directly face left or right
-	# Reversing because y decreases upwards, so when its rotated by 70 degrees it rotates downwards. It should be the opposite
-	if (rad_to_deg(facing_direction.angle()) < 90):
-		bounce_angle_range.reverse()
-	var angle: float = bounce_angle_range[0] + (bounce_angle_range[1] - bounce_angle_range[0]) * percent_from_bottom
-	
+func get_bounce_direction(ball_position: Vector2) -> Vector2:
+	var distance_from_edge = get_distance_from_center(ball_position) + (get_size().x / 2)
+	var percent_from_bottom = distance_from_edge / get_size().x
+	var angle_range = get_bounce_angle_range()
+	var angle: float = angle_range[0] + (angle_range[1] - angle_range[0]) * percent_from_bottom
 	return Vector2(cos(angle), sin(angle))
