@@ -17,7 +17,6 @@ zoom = Vector2(4, 4)
 [node name="Paddles" type="Node" parent="."]
 
 [node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_03tkf")]
-rotation = 0.171042
 characterInput = NodePath("CharacterInput")
 
 [node name="CharacterInput" parent="Paddles/Paddle" instance=ExtResource("5_dpr4m")]
