@@ -10,9 +10,9 @@ class_name Arena extends Node2D
 @onready var ceiling_sprite: Sprite2D = $Ceiling/Sprite2D
 
 @export var wall_thickness: float = 4 # In pixels
-@export var arena_range = Vector2(140, 140) # In pixels
+@export var arena_range = Vector2(256, 200) # In pixels
 
-@export var brick_count: float = 16
+@export var brick_count: float = 128
 var brick_width: float = 16
 var brick_height: float = 8
 var brick_padding: float = 1
