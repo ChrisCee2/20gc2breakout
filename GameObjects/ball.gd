@@ -59,6 +59,8 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 				handle_paddle_bounce(collision, collision_normal)
 		else:
 			handle_bounce(collision_normal)
+		if collision is Brick:
+			collision.destroy()
 	elif current_paddle_collision:
 		current_paddle_collision = null
 	var curr_velocity = velocity
