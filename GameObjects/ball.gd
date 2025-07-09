@@ -20,6 +20,8 @@ var current_speed: float = start_speed
 var velocity: Vector2 = Vector2.ZERO
 var current_paddle_collision: Paddle = null
 
+var normal_angle_moe: float = 0.01
+
 func _ready() -> void:
 	restart()
 
@@ -73,7 +75,8 @@ func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 	AudioManager.play_audio(hit_paddle_sfx)
 	current_paddle_collision = paddle
 	bounce_paddle.emit()
-	if collision_normal != Vector2.UP.rotated(paddle.rotation):
+	if collision_normal.snappedf(normal_angle_moe) != \
+	Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
 		handle_bounce(collision_normal)
 	else:
 		velocity = paddle.get_bounce_direction(global_position) * start_speed;
