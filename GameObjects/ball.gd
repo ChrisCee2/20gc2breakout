@@ -43,7 +43,7 @@ func restart() -> void:
 	start()
 
 func _physics_process(delta: float) -> void:
-	physics_update(getDistanceFromLowerBound(), getDistanceFromUpperBound())
+	physics_update(get_distance_from_lower_bound(), get_distance_from_upper_bound())
 
 func physics_update(distance_from_lower_bound: float, distance_from_upper_bound: float) -> void:
 	if not is_active:
@@ -65,9 +65,6 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	
 	global_position += curr_velocity #* game.current_speed_multiplier
 
-func getBounceVelocity() -> Vector2:
-	return Vector2.ZERO
-
 func get_size() -> Vector2:
 	return sprite.scale
 
@@ -86,14 +83,14 @@ func handle_bounce(collision_normal: Vector2) -> void:
 	AudioManager.play_audio(bounce_sfx)
 	velocity = velocity.bounce(collision_normal)
 
-func getDistanceFromUpperBound() -> float:
+func get_distance_from_upper_bound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = get_size()
-	return (global_position.y - (paddleSize.y / 2)) - arena.get_upper_bound()
+	var paddle_size: Vector2 = get_size()
+	return (global_position.y - (paddle_size.y / 2)) - arena.get_upper_bound()
 
-func getDistanceFromLowerBound() -> float:
+func get_distance_from_lower_bound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = get_size()
-	return arena.get_lower_bound() - (global_position.y + (paddleSize.y / 2))
+	var paddle_size: Vector2 = get_size()
+	return arena.get_lower_bound() - (global_position.y + (paddle_size.y / 2))
