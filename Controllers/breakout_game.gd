@@ -44,6 +44,7 @@ func _ready() -> void:
 
 func start() -> void:
 	current_lives = lives
+	update_lives_label()
 	pause_menu.hide()
 	arena.set_up()
 	for paddle in paddles.get_children():
@@ -76,6 +77,7 @@ func update() -> void:
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
 	if is_out_of_bounds:
 		current_lives -= 1
+		update_lives_label()
 		if is_game_finished():
 			end()
 		else:
@@ -153,6 +155,9 @@ func _on_round_timer_ended() -> void:
 	round_timer.stop()
 	if not is_paused:
 		ball.start()
+
+func update_lives_label() -> void:
+	lives_label.text = str(current_lives)
 
 # TODO: Reuse this to increase speed when certain number of bricks are destroyed, 
 # listen to brick destroyed signal I guess
