@@ -77,20 +77,14 @@ func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 	bounce_paddle.emit()
 	if collision_normal.snappedf(normal_angle_moe) != \
 	Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
-		handle_bounce(collision_normal)
+		velocity = velocity.bounce(collision_normal)
 	else:
 		velocity = paddle.get_bounce_direction(global_position) * start_speed;
 
 func handle_bounce(collision_normal: Vector2) -> void:
-	velocity = velocity.bounce(collision_normal)
-
-func scaleVelocityForWallBounce(current_velocity: Vector2, y: float) -> Vector2:
 	bounce_wall.emit()
 	AudioManager.play_audio(hit_wall_sfx)
-	var factor = abs(current_velocity.y) / y
-	current_velocity /= factor
-	current_velocity.y = -y
-	return current_velocity
+	velocity = velocity.bounce(collision_normal)
 
 func getDistanceFromUpperBound() -> float:
 	if not arena:
