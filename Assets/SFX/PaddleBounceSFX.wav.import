@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://p1ksirxb1q7e"
-path="res://.godot/imported/HitPaddleSFX.wav-a29397ebfd9195133463d76efd1f7555.sample"
+path="res://.godot/imported/PaddleBounceSFX.wav-264d3551d2a412bdd4713cbf36bf9255.sample"
 
 [deps]
 
-source_file="res://Assets/SFX/HitPaddleSFX.wav"
-dest_files=["res://.godot/imported/HitPaddleSFX.wav-a29397ebfd9195133463d76efd1f7555.sample"]
+source_file="res://Assets/SFX/PaddleBounceSFX.wav"
+dest_files=["res://.godot/imported/PaddleBounceSFX.wav-264d3551d2a412bdd4713cbf36bf9255.sample"]
 
 [params]
 

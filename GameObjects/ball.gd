@@ -1,6 +1,6 @@
 class_name Ball extends StaticBody2D
 
-signal bounce_wall
+signal bounce
 signal bounce_paddle
 
 @export var paddles: Node
@@ -13,8 +13,8 @@ signal bounce_paddle
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var shape_cast: ShapeCast2D = $ShapeCast2D
 
-var hit_wall_sfx = preload("res://Assets/SFX/HitWallSFX.wav")
-var hit_paddle_sfx = preload("res://Assets/SFX/HitPaddleSFX.wav")
+var bounce_sfx = preload("res://Assets/SFX/BounceSFX.wav")
+var paddle_bounce_sfx = preload("res://Assets/SFX/PaddleBounceSFX.wav")
 
 var is_active: bool = false
 var current_speed: float = start_speed
@@ -72,7 +72,7 @@ func get_size() -> Vector2:
 	return sprite.scale
 
 func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
-	AudioManager.play_audio(hit_paddle_sfx)
+	AudioManager.play_audio(paddle_bounce_sfx)
 	current_paddle_collision = paddle
 	bounce_paddle.emit()
 	if collision_normal.snappedf(normal_angle_moe) != \
@@ -82,8 +82,8 @@ func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 		velocity = paddle.get_bounce_direction(global_position) * start_speed;
 
 func handle_bounce(collision_normal: Vector2) -> void:
-	bounce_wall.emit()
-	AudioManager.play_audio(hit_wall_sfx)
+	bounce.emit()
+	AudioManager.play_audio(bounce_sfx)
 	velocity = velocity.bounce(collision_normal)
 
 func getDistanceFromUpperBound() -> float:
