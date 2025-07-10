@@ -8,6 +8,7 @@ signal bounce_paddle
 @export var arena: Arena
 @export var start_speed: float = 1.0
 @export var start_position: Vector2 = Vector2(0, 0)
+@export var start_direction: Vector2 = Vector2.UP
 @export_range(1, 89) var max_start_angle: float = 60
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -23,9 +24,6 @@ var current_paddle_collision: Paddle = null
 
 var normal_angle_moe: float = 0.01
 
-func _ready() -> void:
-	restart()
-
 func start():
 	is_active = true
 
@@ -36,7 +34,7 @@ func restart() -> void:
 	current_speed = start_speed
 	current_paddle_collision = null
 	global_position = start_position
-	var angle = deg_to_rad(-randf_range(1, max_start_angle))
+	var angle = start_direction.angle() + deg_to_rad(randf_range(-max_start_angle, max_start_angle))
 	var x = cos(angle)
 	var y = sin(angle)
 	velocity = start_speed * Vector2(x, y).normalized()

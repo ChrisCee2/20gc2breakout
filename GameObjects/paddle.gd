@@ -10,9 +10,8 @@ class_name Paddle extends StaticBody2D
 func set_input(input_interface: InputInterface) -> void:
 	controller.input = input_interface
 
-func _ready() -> void:
-	# Do this in game eventually
-	global_position -= Vector2.UP * 10
+func initialize(start_position: Vector2 = Vector2.ZERO) -> void:
+	global_position = start_position
 	if characterInput:
 		controller.input = characterInput
 

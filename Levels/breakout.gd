@@ -1,18 +1,12 @@
 class_name Breakout extends Node2D
 
-# @onready var game: Game = $Game
-
-@onready var paddle: Paddle = $Paddles/Paddle
-@onready var arena: Arena = $Arena
+@onready var game: BreakoutGame = $BreakoutGame
 
 func _ready() -> void:
-	arena.set_up()
-	# game.start()
+	game.start()
 
 func _process(delta: float) -> void:
-	paddle.update()
-	# game.update()
+	game.update()
 
 func _physics_process(delta: float) -> void:
-	paddle.physics_update(arena.get_left_bound(), arena.get_right_bound())
-	# game.physics_update()
+	game.physics_update()
