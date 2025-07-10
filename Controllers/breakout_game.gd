@@ -73,7 +73,6 @@ func update() -> void:
 		end()
 	
 	update_scores()
-	# TODO: Replace this with check for when ball is below arena, then decrement a lives variable
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
 	if is_out_of_bounds:
 		current_lives -= 1
@@ -98,7 +97,6 @@ func update_scores() -> void:
 				label.text = str(score[control_name])
 
 func is_game_finished() -> bool:
-	# TODO: Logic: If all bricks are destroyed or lives run out, return true
 	if arena.is_bricks_empty() or current_lives == 0:
 		return true
 	return false
@@ -107,7 +105,7 @@ func end() -> void:
 	AudioManager.play_audio(game_end_tune)
 	ui_control.show()
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = game_end_text % score["Player 1"]# Game end text should include score
+	game_end_label.text = game_end_text % score["Player 1"]
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
