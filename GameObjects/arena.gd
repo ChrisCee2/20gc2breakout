@@ -81,4 +81,4 @@ func get_right_bound() -> float:
 	return wall_2.global_position.x - (wall_2_sprite.scale.x / 2)
 
 func is_below_arena(position: Vector2, size: Vector2) -> bool:
-	return position.y + (size.x / 2) > get_lower_bound()
+	return position.y - (size.y / 2) > get_lower_bound()

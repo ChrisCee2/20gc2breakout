@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c32b26kgd1gdw"]
+[gd_scene load_steps=9 format=3 uid="uid://c32b26kgd1gdw"]
 
 [ext_resource type="Script" uid="uid://dd0mv6kkmv742" path="res://Levels/breakout.gd" id="1_jqo3j"]
 [ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_bsmnu"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_03tkf"]
 [ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_dpr4m"]
 [ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="8_2likq"]
+[ext_resource type="PackedScene" uid="uid://bn42d4jwpgv8h" path="res://Controllers/breakout_game.tscn" id="8_5wkee"]
 [ext_resource type="PackedScene" uid="uid://clqb3oci8tpyh" path="res://Menus/pause_menu.tscn" id="9_vlbfm"]
 
 [node name="Breakout" type="Node2D"]
@@ -107,3 +108,13 @@ offset_bottom = 0.0
 paddles = NodePath("../Paddles")
 arena = NodePath("../Arena")
 start_position = Vector2(0, 40)
+
+[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "scores", "ui_control", "win_label", "return_to_menu_label", "pause_menu") instance=ExtResource("8_5wkee")]
+ball = NodePath("../Ball")
+arena = NodePath("../Arena")
+paddles = NodePath("../Paddles")
+scores = NodePath("../Scores")
+ui_control = NodePath("../WinControl")
+win_label = NodePath("../WinControl/GridContainer/WinLabel")
+return_to_menu_label = NodePath("../WinControl/GridContainer/ReturnToMenuLabel")
+pause_menu = NodePath("../PauseMenu")

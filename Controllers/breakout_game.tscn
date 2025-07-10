@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn42d4jwpgv8h"]
+
+[ext_resource type="Script" uid="uid://ddk11ukmfgmeo" path="res://Controllers/breakout_game.gd" id="1_56pkq"]
+
+[node name="BreakoutGame" type="Node"]
+script = ExtResource("1_56pkq")
+
+[node name="RoundTimer" type="Timer" parent="."]
