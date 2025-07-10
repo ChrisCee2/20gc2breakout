@@ -7,6 +7,7 @@ signal bounce_paddle
 # @export var game: Game
 @export var arena: Arena
 @export var start_speed: float = 1.0
+@export var start_position: Vector2 = Vector2(0, 0)
 @export_range(1, 89) var max_start_angle: float = 60
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -34,9 +35,6 @@ func stop():
 func restart() -> void:
 	current_speed = start_speed
 	current_paddle_collision = null
-	var start_position: Vector2 = Vector2.ZERO
-	if arena:
-		start_position = arena.global_position
 	global_position = start_position
 	var angle = deg_to_rad(-randf_range(1, max_start_angle))
 	var x = cos(angle)
@@ -59,6 +57,8 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 				handle_paddle_bounce(collision, collision_normal)
 		else:
 			handle_bounce(collision_normal)
+		if collision is Brick:
+			collision.destroy()
 	elif current_paddle_collision:
 		current_paddle_collision = null
 	var curr_velocity = velocity

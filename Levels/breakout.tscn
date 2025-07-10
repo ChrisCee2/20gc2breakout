@@ -12,12 +12,12 @@
 script = ExtResource("1_jqo3j")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
+zoom = Vector2(3, 3)
 
 [node name="Paddles" type="Node" parent="."]
 
 [node name="Paddle" parent="Paddles" node_paths=PackedStringArray("characterInput") instance=ExtResource("4_03tkf")]
-rotation = 0.171042
+position = Vector2(0, 70)
 characterInput = NodePath("CharacterInput")
 
 [node name="CharacterInput" parent="Paddles/Paddle" instance=ExtResource("5_dpr4m")]
@@ -106,3 +106,4 @@ offset_bottom = 0.0
 [node name="Ball" parent="." node_paths=PackedStringArray("paddles", "arena") instance=ExtResource("3_vobm1")]
 paddles = NodePath("../Paddles")
 arena = NodePath("../Arena")
+start_position = Vector2(0, 40)

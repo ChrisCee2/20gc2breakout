@@ -46,3 +46,5 @@ shape = SubResource("RectangleShape2D_sreni")
 [node name="Sprite2D" type="Sprite2D" parent="Ceiling"]
 scale = Vector2(200, 4)
 texture = SubResource("CanvasTexture_xd7aj")
+
+[node name="Bricks" type="Node" parent="."]
