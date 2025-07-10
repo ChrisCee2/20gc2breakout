@@ -21,7 +21,7 @@ var round_start_time: float = 0.5
 
 var select_sfx: AudioStream = preload("res://Assets/SFX/PauseSelectSFX.wav")
 var score_sfx: AudioStream = preload("res://Assets/SFX/ScoreSFX.wav")
-var win_tune: AudioStream = preload("res://Assets/SFX/WinTune.wav")
+#var win_tune: AudioStream = preload("res://Assets/SFX/WinTune.wav")
 
 var is_started = false
 var game_ended = false
@@ -98,7 +98,7 @@ func get_winner() -> String:
 	return ""
 
 func end(winner: String) -> void:
-	AudioManager.play_audio(win_tune)
+	#AudioManager.play_audio(win_tune)
 	ui_control.show()
 	var return_to_menu_key: String = "Space"
 	win_label.text = win_text % winner

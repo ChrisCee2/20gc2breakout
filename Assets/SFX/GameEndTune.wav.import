@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d3uqby6gqasxx"
-path="res://.godot/imported/WinTune.wav-ea0836da78999e649be716aa2df9d36f.sample"
+path="res://.godot/imported/GameEndTune.wav-19a28f3e23eeb0d79fee0534476a27c2.sample"
 
 [deps]
 
-source_file="res://Assets/SFX/WinTune.wav"
-dest_files=["res://.godot/imported/WinTune.wav-ea0836da78999e649be716aa2df9d36f.sample"]
+source_file="res://Assets/SFX/GameEndTune.wav"
+dest_files=["res://.godot/imported/GameEndTune.wav-19a28f3e23eeb0d79fee0534476a27c2.sample"]
 
 [params]
 

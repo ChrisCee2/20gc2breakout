@@ -19,7 +19,7 @@ var round_start_time: float = 0.5
 
 var select_sfx: AudioStream = preload("res://Assets/SFX/PauseSelectSFX.wav")
 var score_sfx: AudioStream = preload("res://Assets/SFX/ScoreSFX.wav")
-var win_tune: AudioStream = preload("res://Assets/SFX/WinTune.wav")
+var game_end_tune: AudioStream = preload("res://Assets/SFX/GameEndTune.wav")
 
 var is_started = false
 var game_ended = false
@@ -93,10 +93,10 @@ func is_game_finished() -> bool:
 	return false
 
 func end() -> void:
-	AudioManager.play_audio(win_tune)
+	AudioManager.play_audio(game_end_tune)
 	ui_control.show()
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = game_end_text % score["Player 1"]# Win text should include score
+	game_end_label.text = game_end_text % score["Player 1"]# Game end text should include score
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
