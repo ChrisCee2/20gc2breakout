@@ -10,7 +10,7 @@ signal new_round
 @export_group("UI")
 @export var scores: Node
 @export var ui_control: Control
-@export var win_label: Label
+@export var game_end_label: Label
 @export var return_to_menu_label: Label
 @export var pause_menu: Control
 
@@ -27,7 +27,7 @@ var is_paused = false
 var round_ended = true
 var initial_score: Dictionary = {"Player 1": 0, "Player 2": 0}
 var score: Dictionary = initial_score.duplicate()
-var win_text = "%s Wins!"
+var game_end_text = "You broke %s bricks!"
 var return_to_menu_text = "[%s] to go back"
 
 var paddle_hits: int = 0
@@ -59,17 +59,18 @@ func update() -> void:
 	if not is_started:
 		return
 	
+	if is_game_finished():
+		end()
+	
 	update_scores()
 	# TODO: Replace this with check for when ball is below arena, then decrement a lives variable
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
-	if not is_out_of_bounds:
-		return
-	
-	if is_game_finished():
-		end()
-	else:
-		AudioManager.play_audio(score_sfx)
-		restart_round()
+	if is_out_of_bounds:
+		if is_game_finished():
+			end()
+		else:
+			AudioManager.play_audio(score_sfx)
+			restart_round()
 
 func physics_update() -> void:
 	if not is_paused:
@@ -86,14 +87,16 @@ func update_scores() -> void:
 				label.text = str(score[control_name])
 
 func is_game_finished() -> bool:
-	# Logic: If all bricks are destroyed or lives run out, return true
+	# TODO: Logic: If all bricks are destroyed or lives run out, return true
+	if arena.is_bricks_empty():
+		return true
 	return false
 
 func end() -> void:
 	AudioManager.play_audio(win_tune)
 	ui_control.show()
 	var return_to_menu_key: String = "Space"
-	win_label.text = win_text # Win text should include score
+	game_end_label.text = game_end_text % score["Player 1"]# Win text should include score
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()

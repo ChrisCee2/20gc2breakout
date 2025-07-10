@@ -80,7 +80,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WinLabel" type="Label" parent="WinControl/GridContainer"]
+[node name="GameEndLabel" type="Label" parent="WinControl/GridContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -109,12 +109,12 @@ paddles = NodePath("../Paddles")
 arena = NodePath("../Arena")
 start_position = Vector2(0, 40)
 
-[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "scores", "ui_control", "win_label", "return_to_menu_label", "pause_menu") instance=ExtResource("8_5wkee")]
+[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "scores", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu") instance=ExtResource("8_5wkee")]
 ball = NodePath("../Ball")
 arena = NodePath("../Arena")
 paddles = NodePath("../Paddles")
 scores = NodePath("../Scores")
 ui_control = NodePath("../WinControl")
-win_label = NodePath("../WinControl/GridContainer/WinLabel")
+game_end_label = NodePath("../WinControl/GridContainer/GameEndLabel")
 return_to_menu_label = NodePath("../WinControl/GridContainer/ReturnToMenuLabel")
 pause_menu = NodePath("../PauseMenu")

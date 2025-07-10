@@ -82,3 +82,6 @@ func get_right_bound() -> float:
 
 func is_below_arena(position: Vector2, size: Vector2) -> bool:
 	return position.y - (size.y / 2) > get_lower_bound()
+
+func is_bricks_empty() -> bool:
+	return bricks.get_child_count() == 0
