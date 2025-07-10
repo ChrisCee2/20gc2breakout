@@ -13,6 +13,7 @@ signal new_round
 @export var game_end_label: Label
 @export var return_to_menu_label: Label
 @export var pause_menu: Control
+@export var lives_label: Label
 
 @onready var round_timer: Timer = $RoundTimer
 var round_start_time: float = 0.5
@@ -34,11 +35,16 @@ var paddle_hits: int = 0
 var speed_multiplier: float = 1.0
 var current_speed_multiplier: float = speed_multiplier
 
+@export var lives: int = 3
+var current_lives: int = 0
+
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
 	# ball.bounce_paddle.connect(_on_paddle_hit)
 
 func start() -> void:
+	current_lives = lives
+	update_lives_label()
 	pause_menu.hide()
 	arena.set_up()
 	for paddle in paddles.get_children():
@@ -68,9 +74,10 @@ func update() -> void:
 		end()
 	
 	update_scores()
-	# TODO: Replace this with check for when ball is below arena, then decrement a lives variable
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
 	if is_out_of_bounds:
+		current_lives -= 1
+		update_lives_label()
 		if is_game_finished():
 			end()
 		else:
@@ -92,8 +99,7 @@ func update_scores() -> void:
 				label.text = str(score[control_name])
 
 func is_game_finished() -> bool:
-	# TODO: Logic: If all bricks are destroyed or lives run out, return true
-	if arena.is_bricks_empty():
+	if arena.is_bricks_empty() or current_lives == 0:
 		return true
 	return false
 
@@ -101,7 +107,7 @@ func end() -> void:
 	AudioManager.play_audio(game_end_tune)
 	ui_control.show()
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = game_end_text % score["Player 1"]# Game end text should include score
+	game_end_label.text = game_end_text % score["Player 1"]
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
@@ -149,6 +155,9 @@ func _on_round_timer_ended() -> void:
 	round_timer.stop()
 	if not is_paused:
 		ball.start()
+
+func update_lives_label() -> void:
+	lives_label.text = str(current_lives)
 
 # TODO: Reuse this to increase speed when certain number of bricks are destroyed, 
 # listen to brick destroyed signal I guess
