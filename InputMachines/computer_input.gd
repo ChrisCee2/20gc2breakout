@@ -36,7 +36,7 @@ var ball_error: float = 0 # How many pixels it is ok for the paddle to be from t
 func _ready() -> void:
 	input_timer.timeout.connect(_input_timer_ended)
 	reaction_timer.timeout.connect(_reaction_timer_ended)
-	ball.bounce_wall.connect(reset_reaction_timer)
+	ball.bounce.connect(reset_reaction_timer)
 	ball.bounce_paddle.connect(reset_reaction_timer)
 	game.new_round.connect(reset)
 

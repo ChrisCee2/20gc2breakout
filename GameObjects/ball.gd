@@ -1,6 +1,6 @@
 class_name Ball extends StaticBody2D
 
-signal bounce_wall
+signal bounce
 signal bounce_paddle
 
 @export var paddles: Node
@@ -13,8 +13,8 @@ signal bounce_paddle
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var shape_cast: ShapeCast2D = $ShapeCast2D
 
-var hit_wall_sfx = preload("res://Assets/SFX/HitWallSFX.wav")
-var hit_paddle_sfx = preload("res://Assets/SFX/HitPaddleSFX.wav")
+var bounce_sfx = preload("res://Assets/SFX/BounceSFX.wav")
+var paddle_bounce_sfx = preload("res://Assets/SFX/PaddleBounceSFX.wav")
 
 var is_active: bool = false
 var current_speed: float = start_speed
@@ -43,7 +43,7 @@ func restart() -> void:
 	start()
 
 func _physics_process(delta: float) -> void:
-	physics_update(getDistanceFromLowerBound(), getDistanceFromUpperBound())
+	physics_update(get_distance_from_lower_bound(), get_distance_from_upper_bound())
 
 func physics_update(distance_from_lower_bound: float, distance_from_upper_bound: float) -> void:
 	if not is_active:
@@ -65,41 +65,32 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	
 	global_position += curr_velocity #* game.current_speed_multiplier
 
-func getBounceVelocity() -> Vector2:
-	return Vector2.ZERO
-
 func get_size() -> Vector2:
 	return sprite.scale
 
 func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
-	AudioManager.play_audio(hit_paddle_sfx)
+	AudioManager.play_audio(paddle_bounce_sfx)
 	current_paddle_collision = paddle
 	bounce_paddle.emit()
 	if collision_normal.snappedf(normal_angle_moe) != \
 	Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
-		handle_bounce(collision_normal)
+		velocity = velocity.bounce(collision_normal)
 	else:
 		velocity = paddle.get_bounce_direction(global_position) * start_speed;
 
 func handle_bounce(collision_normal: Vector2) -> void:
+	bounce.emit()
+	AudioManager.play_audio(bounce_sfx)
 	velocity = velocity.bounce(collision_normal)
 
-func scaleVelocityForWallBounce(current_velocity: Vector2, y: float) -> Vector2:
-	bounce_wall.emit()
-	AudioManager.play_audio(hit_wall_sfx)
-	var factor = abs(current_velocity.y) / y
-	current_velocity /= factor
-	current_velocity.y = -y
-	return current_velocity
-
-func getDistanceFromUpperBound() -> float:
+func get_distance_from_upper_bound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = get_size()
-	return (global_position.y - (paddleSize.y / 2)) - arena.get_upper_bound()
+	var paddle_size: Vector2 = get_size()
+	return (global_position.y - (paddle_size.y / 2)) - arena.get_upper_bound()
 
-func getDistanceFromLowerBound() -> float:
+func get_distance_from_lower_bound() -> float:
 	if not arena:
 		return 10000
-	var paddleSize: Vector2 = get_size()
-	return arena.get_lower_bound() - (global_position.y + (paddleSize.y / 2))
+	var paddle_size: Vector2 = get_size()
+	return arena.get_lower_bound() - (global_position.y + (paddle_size.y / 2))

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cbtrpgxe745xr"
-path="res://.godot/imported/HitWallSFX.wav-1ddf241401ee797d43994b3beb5663ec.sample"
+path="res://.godot/imported/BounceSFX.wav-001dd7e4671d2d553a2fd5b80780fd42.sample"
 
 [deps]
 
-source_file="res://Assets/SFX/HitWallSFX.wav"
-dest_files=["res://.godot/imported/HitWallSFX.wav-1ddf241401ee797d43994b3beb5663ec.sample"]
+source_file="res://Assets/SFX/BounceSFX.wav"
+dest_files=["res://.godot/imported/BounceSFX.wav-001dd7e4671d2d553a2fd5b80780fd42.sample"]
 
 [params]
 
