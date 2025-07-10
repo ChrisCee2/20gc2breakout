@@ -24,9 +24,6 @@ var current_paddle_collision: Paddle = null
 
 var normal_angle_moe: float = 0.01
 
-func _ready() -> void:
-	restart()
-
 func start():
 	is_active = true
 

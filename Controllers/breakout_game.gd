@@ -41,6 +41,11 @@ func _ready() -> void:
 func start() -> void:
 	pause_menu.hide()
 	arena.set_up()
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			paddle.initialize(
+				Vector2(arena.global_position.x, arena.get_lower_bound()) + (Vector2.UP * 10)
+			)
 	reset()
 
 func update() -> void:
