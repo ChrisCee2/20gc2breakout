@@ -13,6 +13,7 @@ signal new_round
 @export var game_end_label: Label
 @export var return_to_menu_label: Label
 @export var pause_menu: Control
+@export var lives_label: Label
 
 @onready var round_timer: Timer = $RoundTimer
 var round_start_time: float = 0.5
@@ -34,11 +35,15 @@ var paddle_hits: int = 0
 var speed_multiplier: float = 1.0
 var current_speed_multiplier: float = speed_multiplier
 
+@export var lives: int = 3
+var current_lives: int = 0
+
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
 	# ball.bounce_paddle.connect(_on_paddle_hit)
 
 func start() -> void:
+	current_lives = lives
 	pause_menu.hide()
 	arena.set_up()
 	for paddle in paddles.get_children():
@@ -71,6 +76,7 @@ func update() -> void:
 	# TODO: Replace this with check for when ball is below arena, then decrement a lives variable
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
 	if is_out_of_bounds:
+		current_lives -= 1
 		if is_game_finished():
 			end()
 		else:
@@ -93,7 +99,7 @@ func update_scores() -> void:
 
 func is_game_finished() -> bool:
 	# TODO: Logic: If all bricks are destroyed or lives run out, return true
-	if arena.is_bricks_empty():
+	if arena.is_bricks_empty() or current_lives == 0:
 		return true
 	return false
 
