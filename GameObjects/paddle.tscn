@@ -7,7 +7,6 @@
 size = Vector2(30, 4)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_tbytw"]
-specular_color = Color(0.460172, 0.233411, 0.453389, 1)
 
 [node name="Paddle" type="StaticBody2D"]
 script = ExtResource("1_tbytw")

@@ -19,6 +19,17 @@ var brick_padding: float = 1
 var brick_scene = preload("res://GameObjects/brick.tscn")
 var centered_offset: Vector2 = Vector2(8, 2)
 
+var rainbow: Array[Color] = [
+	Color(1.0, 0, 0), # Red
+	Color(1.0, 0.647059, 0.0), # Orange
+	Color(1.0, 0.88, 0.20), # Yellow
+	Color(0, 1.0, 0), # Green
+	Color(0, 1.0, 1.0), # Cyan
+	Color(0, 0, 1.0), # Blue
+	Color(1.0, 0, 1.0), # Violet
+	Color(1.0, 1.0, 1.0), # White
+]
+
 func set_up() -> void:
 	wall_1.global_position = global_position + \
 	(Vector2.LEFT * arena_range.x / 2) + \
@@ -41,6 +52,7 @@ func set_up() -> void:
 
 # This assumes all bricks are the same size
 func set_up_bricks() -> void:
+	var current_color = rainbow[0]
 	var row: int = 0
 	var col: int = 0
 	var left_bound: float = get_left_bound()
@@ -55,6 +67,8 @@ func set_up_bricks() -> void:
 		if left_bound + (col * (brick_padding + brick_width)) + arena_padding + brick_width > right_bound:
 			row += 1
 			col = 0
+			current_color = rainbow[row - (rainbow.size() * floor(row / rainbow.size()))]
+		new_brick.set_color(current_color)
 		var x: float = left_bound + (col * (brick_padding + brick_width)) + arena_padding
 		var y: float = upper_bound + (row * (brick_padding + brick_height)) + arena_padding
 		new_brick.global_position = Vector2(x, y) + centered_offset
