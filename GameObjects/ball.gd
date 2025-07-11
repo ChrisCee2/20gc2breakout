@@ -21,7 +21,7 @@ var paddle_bounce_sfx = preload("res://Assets/SFX/PaddleBounceSFX.wav")
 var is_active: bool = false
 var current_speed: float = start_speed
 var velocity: Vector2 = Vector2.ZERO
-var current_paddle_collision: Paddle = null
+var current_collisions: Array[StaticBody2D] =[]
 
 var normal_angle_moe: float = 0.01
 
@@ -33,7 +33,7 @@ func stop():
 
 func restart() -> void:
 	current_speed = start_speed
-	current_paddle_collision = null
+	current_collisions = []
 	global_position = start_position
 	var angle = start_direction.angle() + deg_to_rad(randf_range(-max_start_angle, max_start_angle))
 	var x = cos(angle)
@@ -50,17 +50,17 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	
 	var collision = shape_cast.get_collider(0)
 	if collision:
-		var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
-		if collision is Paddle:
-			if not current_paddle_collision:
+		if collision not in current_collisions:
+			var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
+			if collision is Paddle:
 				handle_paddle_bounce(collision, collision_normal)
-		else:
-			handle_bounce(collision_normal)
-		if collision is Brick:
-			emit_signal("bounce_brick")
-			collision.queue_free()
-	elif current_paddle_collision:
-		current_paddle_collision = null
+			else:
+				handle_bounce(collision_normal)
+			if collision is Brick:
+				emit_signal("bounce_brick")
+				collision.queue_free()
+			current_collisions.append(collision)
+	update_current_collisions(shape_cast.get_collision_count())
 	var curr_velocity = velocity
 	
 	global_position += curr_velocity #* game.current_speed_multiplier
@@ -70,7 +70,6 @@ func get_size() -> Vector2:
 
 func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 	AudioManager.play_audio(paddle_bounce_sfx)
-	current_paddle_collision = paddle
 	bounce_paddle.emit()
 	if collision_normal.snappedf(normal_angle_moe) != \
 	Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
@@ -94,3 +93,9 @@ func get_distance_from_lower_bound() -> float:
 		return 10000
 	var paddle_size: Vector2 = get_size()
 	return arena.get_lower_bound() - (global_position.y + (paddle_size.y / 2))
+
+func update_current_collisions(collision_count: int) -> void:
+	current_collisions = []
+	for i in range(collision_count):
+		current_collisions.append(shape_cast.get_collider(i))
+	
