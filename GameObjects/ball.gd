@@ -60,11 +60,11 @@ func get_size() -> Vector2:
 func handle_paddle_bounce(paddle: Paddle, collision_normal: Vector2) -> void:
 	AudioManager.play_audio(paddle_bounce_sfx)
 	bounce_paddle.emit()
-	if collision_normal.snappedf(normal_angle_moe) != \
-	Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
-		velocity = velocity.bounce(collision_normal)
-	else:
-		velocity = paddle.get_bounce_direction(global_position) * start_speed;
+	#if collision_normal.snappedf(normal_angle_moe) != \
+	#Vector2.UP.rotated(paddle.rotation).snappedf(normal_angle_moe):
+		#velocity = velocity.bounce(collision_normal)
+	#else:
+	velocity = paddle.get_bounce_direction(global_position) * start_speed;
 
 func handle_bounce(collision_normal: Vector2) -> void:
 	bounce.emit()
@@ -94,7 +94,6 @@ func handle_collisions(collision_count: int) -> void:
 	for i in range(collision_count):
 		var collision = shape_cast.get_collider(i)
 		var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
-		print(collision_normal not in normals_collided_with)
 		if collision not in current_collisions:
 			if collision_normal not in normals_collided_with:
 				if collision is Paddle:
