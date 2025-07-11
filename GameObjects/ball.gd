@@ -2,6 +2,7 @@ class_name Ball extends StaticBody2D
 
 signal bounce
 signal bounce_paddle
+signal bounce_brick
 
 @export var paddles: Node
 # @export var game: Game
@@ -56,7 +57,8 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 		else:
 			handle_bounce(collision_normal)
 		if collision is Brick:
-			collision.destroy()
+			emit_signal("bounce_brick")
+			collision.queue_free()
 	elif current_paddle_collision:
 		current_paddle_collision = null
 	var curr_velocity = velocity

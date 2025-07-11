@@ -42,6 +42,7 @@ font_name = "Pixelated Elegance"
 style_name = "Regular"
 subpixel_positioning = 0
 msdf_pixel_range = 8
+msdf_size = 128
 cache/0/16/0/ascent = 13.0
 cache/0/16/0/descent = 2.0
 cache/0/16/0/underline_position = 0.0
