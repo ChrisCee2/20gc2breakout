@@ -1,6 +1,7 @@
 class_name PauseMenu extends Control
 
-@export var game: Game
+@export var game: BreakoutGame
+@export var camera: Camera2D
 
 @onready var resume_button: Button = $GridContainer/ResumeButton
 @onready var back_button: Button = $GridContainer/BackButton
@@ -14,6 +15,8 @@ func _ready() -> void:
 	back_button.pressed.connect(return_to_main_menu)
 	resume_button.mouse_entered.connect(_on_enter)
 	back_button.mouse_entered.connect(_on_enter)
+	# Not really how you should scale it, it should be inverse, but it works so whatever
+	scale = camera.zoom
 
 func return_to_main_menu() -> void:
 	AudioManager.play_audio(select_sfx)

@@ -243,9 +243,11 @@ theme_override_font_sizes/font_size = 9
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PauseMenu" parent="." instance=ExtResource("9_vlbfm")]
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("game", "camera") instance=ExtResource("9_vlbfm")]
 offset_right = 0.0
 offset_bottom = 0.0
+game = NodePath("../BreakoutGame")
+camera = NodePath("../Camera2D")
 
 [node name="Arena" parent="." instance=ExtResource("2_bsmnu")]
 
