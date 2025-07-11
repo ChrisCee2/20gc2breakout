@@ -36,6 +36,7 @@ var return_to_menu_text = "[%s] to go back"
 var paddle_hits: int = 0
 var speed_multiplier: float = 1.0
 var current_speed_multiplier: float = speed_multiplier
+var speed_increment: float = 0.02
 
 @export var lives: int = 3
 var current_lives: int = 0
@@ -43,8 +44,9 @@ var current_lives: int = 0
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
 	player_info_control.global_position += player_info_offset
-	# ball.bounce_paddle.connect(_on_paddle_hit)
-	ball.bounce_brick.connect(_increment_score)
+	ball.bounce.connect(_on_bounce)
+	ball.bounce_paddle.connect(_on_bounce)
+	ball.bounce_brick.connect(_on_brick_break)
 
 func start() -> void:
 	current_lives = lives
@@ -158,14 +160,9 @@ func _on_round_timer_ended() -> void:
 func update_lives_label() -> void:
 	lives_label.text = str(current_lives)
 
-# TODO: Reuse this to increase speed when certain number of bricks are destroyed, 
-# listen to brick destroyed signal I guess
-#func _on_paddle_hit() -> void:
-	#paddle_hits += 1
-	#if paddle_hits == 10:
-		#current_speed_multiplier = 1.5
-	#if paddle_hits == 20:
-		#current_speed_multiplier = 2.0
+func _on_bounce() -> void:
+	current_speed_multiplier = speed_multiplier + (speed_increment * score["Player 1"])
 
-func _increment_score() -> void:
+func _on_brick_break() -> void:
 	score["Player 1"] += 1
+	_on_bounce()

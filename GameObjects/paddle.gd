@@ -1,7 +1,7 @@
 class_name Paddle extends StaticBody2D
 
 @export var characterInput: InputInterface
-# @export var game: Game
+@export var game: BreakoutGame
 @export_range(1, 89) var maxBounceAngle: float = 60
 @onready var controller = $CharacterController
 
@@ -22,8 +22,7 @@ func update():
 func physics_update(arena_left_bound: float = -1000, arena_right_bound: float = 1000) -> void:
 	if controller:
 		controller.update(
-			#game.current_speed_multiplier,
-			1,
+			game.current_speed_multiplier,
 			get_distance_from_left_bound(arena_left_bound), 
 			get_distance_from_right_bound(arena_right_bound))
 
