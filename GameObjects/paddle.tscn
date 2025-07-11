@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bxm45k22yx15g" path="res://Controllers/CharacterController.tscn" id="2_r112f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ut3sq"]
-size = Vector2(20, 4)
+size = Vector2(30, 4)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_tbytw"]
 specular_color = Color(0.460172, 0.233411, 0.453389, 1)
@@ -19,5 +19,5 @@ shape = SubResource("RectangleShape2D_ut3sq")
 object = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(20, 4)
+scale = Vector2(30, 4)
 texture = SubResource("CanvasTexture_tbytw")

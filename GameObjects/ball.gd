@@ -5,7 +5,7 @@ signal bounce_paddle
 signal bounce_brick
 
 @export var paddles: Node
-# @export var game: Game
+@export var game: BreakoutGame
 @export var arena: Arena
 @export var start_speed: float = 1.0
 @export var start_position: Vector2 = Vector2(0, 0)
@@ -48,22 +48,11 @@ func physics_update(distance_from_lower_bound: float, distance_from_upper_bound:
 	if not is_active:
 		return
 	
-	var collision = shape_cast.get_collider(0)
-	if collision:
-		if collision not in current_collisions:
-			var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
-			if collision is Paddle:
-				handle_paddle_bounce(collision, collision_normal)
-			else:
-				handle_bounce(collision_normal)
-			if collision is Brick:
-				emit_signal("bounce_brick")
-				collision.queue_free()
-			current_collisions.append(collision)
+	var collision_count = shape_cast.get_collision_count()
+	handle_collisions(collision_count)
 	update_current_collisions(shape_cast.get_collision_count())
-	var curr_velocity = velocity
 	
-	global_position += curr_velocity #* game.current_speed_multiplier
+	global_position += velocity * game.current_speed_multiplier
 
 func get_size() -> Vector2:
 	return sprite.scale
@@ -98,4 +87,16 @@ func update_current_collisions(collision_count: int) -> void:
 	current_collisions = []
 	for i in range(collision_count):
 		current_collisions.append(shape_cast.get_collider(i))
-	
+
+func handle_collisions(collision_count: int) -> void:
+	for i in range(collision_count):
+		var collision = shape_cast.get_collider(i)
+		if collision not in current_collisions:
+			var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
+			if collision is Paddle:
+				handle_paddle_bounce(collision, collision_normal)
+			else:
+				handle_bounce(collision_normal)
+			if collision is Brick:
+				emit_signal("bounce_brick")
+				collision.queue_free()
