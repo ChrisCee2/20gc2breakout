@@ -44,6 +44,7 @@ func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
 	player_info_control.global_position += player_info_offset
 	# ball.bounce_paddle.connect(_on_paddle_hit)
+	ball.bounce_brick.connect(_increment_score)
 
 func start() -> void:
 	current_lives = lives
@@ -165,3 +166,6 @@ func update_lives_label() -> void:
 		#current_speed_multiplier = 1.5
 	#if paddle_hits == 20:
 		#current_speed_multiplier = 2.0
+
+func _increment_score() -> void:
+	score["Player 1"] += 1
