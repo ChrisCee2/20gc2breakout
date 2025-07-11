@@ -170,60 +170,30 @@ characterInput = NodePath("CharacterInput")
 leftKey = "paddle_left"
 rightKey = "paddle_right"
 
-[node name="Scores" type="Node" parent="."]
-
-[node name="Player 1" type="Control" parent="Scores"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -82.3
-offset_top = -46.3
-offset_bottom = 46.3
-
-[node name="Label" type="Label" parent="Scores/Player 1"]
-z_index = -1000
+[node name="WinControl" type="Control" parent="."]
+z_index = 100
 texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -25.0
-offset_top = -20.5
-offset_right = 25.0
-offset_bottom = 20.5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.140447, 0.140447, 0.140447, 1)
-theme_override_fonts/font = ExtResource("8_2likq")
-theme_override_font_sizes/font_size = 45
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WinControl" type="Control" parent="."]
-texture_filter = 1
-layout_mode = 3
-anchors_preset = 0
-offset_left = -82.3
-offset_top = -46.3
-offset_right = 82.3
-offset_bottom = 46.3
+scale = Vector2(2, 2)
 
 [node name="GridContainer" type="GridContainer" parent="WinControl"]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -20.0
-offset_top = -20.0
+offset_top = -40.0
 offset_right = 20.0
-offset_bottom = 20.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="GameEndLabel" type="Label" parent="WinControl/GridContainer"]
 texture_filter = 1
@@ -256,37 +226,56 @@ paddles = NodePath("../Paddles")
 arena = NodePath("../Arena")
 start_position = Vector2(0, 40)
 
-[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "scores", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu", "lives_label") instance=ExtResource("8_5wkee")]
+[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "score_label", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu", "lives_label", "player_info_control") instance=ExtResource("8_5wkee")]
 ball = NodePath("../Ball")
 arena = NodePath("../Arena")
 paddles = NodePath("../Paddles")
-scores = NodePath("../Scores")
+score_label = NodePath("../PlayerInfo/GridContainer/ScoreLabel")
 ui_control = NodePath("../WinControl")
 game_end_label = NodePath("../WinControl/GridContainer/GameEndLabel")
 return_to_menu_label = NodePath("../WinControl/GridContainer/ReturnToMenuLabel")
 pause_menu = NodePath("../PauseMenu")
-lives_label = NodePath("../Lives/LivesLabel")
+lives_label = NodePath("../PlayerInfo/GridContainer/LivesLabel")
+player_info_control = NodePath("../PlayerInfo")
 
-[node name="Lives" type="Control" parent="."]
+[node name="PlayerInfo" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LivesLabel" type="Label" parent="Lives"]
+[node name="GridContainer" type="GridContainer" parent="PlayerInfo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreLabel" type="Label" parent="PlayerInfo/GridContainer"]
 z_index = -1000
 texture_filter = 1
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -10.0
-offset_right = 10.0
-offset_bottom = 41.0
-grow_horizontal = 2
+layout_mode = 2
 theme_override_colors/font_color = Color(0.140447, 0.140447, 0.140447, 1)
+theme_override_fonts/font = ExtResource("8_2likq")
+theme_override_font_sizes/font_size = 45
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LivesLabel" type="Label" parent="PlayerInfo/GridContainer"]
+z_index = -1000
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.596144, 0.837846, 0.484995, 1)
 theme_override_fonts/font = SubResource("FontFile_vobm1")
 theme_override_font_sizes/font_size = 45
 text = "1"

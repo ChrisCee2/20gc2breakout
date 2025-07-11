@@ -8,12 +8,14 @@ signal new_round
 @export var paddles: Node
 
 @export_group("UI")
-@export var scores: Node
+@export var score_label: Label
 @export var ui_control: Control
 @export var game_end_label: Label
 @export var return_to_menu_label: Label
 @export var pause_menu: Control
 @export var lives_label: Label
+@export var player_info_control: Control
+@export var player_info_offset: Vector2 = Vector2(0, 40)
 
 @onready var round_timer: Timer = $RoundTimer
 var round_start_time: float = 0.5
@@ -40,6 +42,7 @@ var current_lives: int = 0
 
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
+	player_info_control.global_position += player_info_offset
 	# ball.bounce_paddle.connect(_on_paddle_hit)
 
 func start() -> void:
@@ -73,7 +76,7 @@ func update() -> void:
 	if is_game_finished():
 		end()
 	
-	update_scores()
+	update_score()
 	var is_out_of_bounds: bool = arena.is_below_arena(ball.global_position, ball.get_size())
 	if is_out_of_bounds:
 		current_lives -= 1
@@ -90,13 +93,8 @@ func physics_update() -> void:
 			if paddle is Paddle:
 				paddle.physics_update(arena.get_left_bound(), arena.get_right_bound())
 
-func update_scores() -> void:
-	for child in scores.get_children():
-		if child is Control:
-			var control_name = child.name
-			var label = child.get_child(0)
-			if label is Label:
-				label.text = str(score[control_name])
+func update_score() -> void:
+	score_label.text = str(score["Player 1"])
 
 func is_game_finished() -> bool:
 	if arena.is_bricks_empty() or current_lives == 0:
@@ -121,7 +119,7 @@ func reset() -> void:
 	is_started = true
 	game_ended = false
 	score = initial_score.duplicate()
-	update_scores()
+	update_score()
 
 func restart_round() -> void:
 	current_speed_multiplier = speed_multiplier
