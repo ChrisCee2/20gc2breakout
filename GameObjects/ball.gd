@@ -89,14 +89,19 @@ func update_current_collisions(collision_count: int) -> void:
 		current_collisions.append(shape_cast.get_collider(i))
 
 func handle_collisions(collision_count: int) -> void:
+	# To handle multiple collisions at same time but bounce properly
+	var normals_collided_with: Array[Vector2] = []
 	for i in range(collision_count):
 		var collision = shape_cast.get_collider(i)
+		var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
+		print(collision_normal not in normals_collided_with)
 		if collision not in current_collisions:
-			var collision_normal: Vector2 = shape_cast.get_collision_normal(0)
-			if collision is Paddle:
-				handle_paddle_bounce(collision, collision_normal)
-			else:
-				handle_bounce(collision_normal)
+			if collision_normal not in normals_collided_with:
+				if collision is Paddle:
+					handle_paddle_bounce(collision, collision_normal)
+				else:
+					handle_bounce(collision_normal)
 			if collision is Brick:
 				emit_signal("bounce_brick")
 				collision.queue_free()
+			normals_collided_with.append(collision_normal)
