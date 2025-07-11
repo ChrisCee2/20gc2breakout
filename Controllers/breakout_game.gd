@@ -165,4 +165,10 @@ func _on_bounce() -> void:
 
 func _on_brick_break() -> void:
 	score["Player 1"] += 1
+	
+	var paddle_width_percentage: float = 1 - (.5 * (score["Player 1"] / arena.brick_count))
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			var paddle_size: Vector2 = paddle.start_size
+			paddle.update_size(Vector2(paddle_size.x * paddle_width_percentage, paddle_size.y))
 	_on_bounce()

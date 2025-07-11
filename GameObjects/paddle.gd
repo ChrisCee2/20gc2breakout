@@ -1,16 +1,23 @@
 class_name Paddle extends StaticBody2D
 
+@export var start_size: Vector2 = Vector2(40, 4)
 @export var characterInput: InputInterface
 @export var game: BreakoutGame
 @export_range(1, 89) var maxBounceAngle: float = 60
 @onready var controller = $CharacterController
 
-@onready var sprite = $Sprite2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
+func update_size(new_size: Vector2) -> void:
+	sprite.scale = new_size
+	collision_shape.shape.set_size(new_size)
 
 func set_input(input_interface: InputInterface) -> void:
 	controller.input = input_interface
 
 func initialize(start_position: Vector2 = Vector2.ZERO) -> void:
+	update_size(start_size)
 	global_position = start_position
 	if characterInput:
 		controller.input = characterInput
