@@ -44,6 +44,7 @@ var current_lives: int = 0
 
 var score_file_path: String = "user://high_score.dat"
 var high_score: int = 0
+var high_score_text: String = "High score! "
 
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
@@ -112,10 +113,12 @@ func is_game_finished() -> bool:
 func end() -> void:
 	AudioManager.play_audio(game_end_tune)
 	ui_control.show()
+	var win_text: String = game_end_text % score["Player 1"]
 	if score["Player 1"] > high_score:
 		save_score()
+		win_text = high_score_text + win_text
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = game_end_text % score["Player 1"]
+	game_end_label.text = win_text
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
