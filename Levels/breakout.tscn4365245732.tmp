@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dd0mv6kkmv742" path="res://Levels/breakout.gd" id="1_jqo3j"]
 [ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_bsmnu"]
+[ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/ball.tscn" id="3_vobm1"]
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_03tkf"]
 [ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_dpr4m"]
 [ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="8_2likq"]
 [ext_resource type="PackedScene" uid="uid://bn42d4jwpgv8h" path="res://Controllers/breakout_game.tscn" id="8_5wkee"]
-[ext_resource type="PackedScene" uid="uid://n1820j3cmpgx" path="res://GameObjects/ball.tscn" id="8_jqo3j"]
 [ext_resource type="PackedScene" uid="uid://clqb3oci8tpyh" path="res://Menus/pause_menu.tscn" id="9_vlbfm"]
 
 [sub_resource type="Image" id="Image_5wkee"]
@@ -228,6 +228,12 @@ camera = NodePath("../Camera2D")
 
 [node name="Arena" parent="." instance=ExtResource("2_bsmnu")]
 
+[node name="Ball" parent="." node_paths=PackedStringArray("paddles", "game", "arena") instance=ExtResource("3_vobm1")]
+paddles = NodePath("../Paddles")
+game = NodePath("../BreakoutGame")
+arena = NodePath("../Arena")
+start_position = Vector2(0, 40)
+
 [node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "score_label", "high_score_label", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu", "lives_label", "player_info_control") instance=ExtResource("8_5wkee")]
 ball = NodePath("../Ball")
 arena = NodePath("../Arena")
@@ -296,7 +302,3 @@ theme_override_font_sizes/font_size = 45
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Ball" parent="." node_paths=PackedStringArray("arena") instance=ExtResource("8_jqo3j")]
-arena = NodePath("../Arena")
-start_position = Vector2(0, 40)

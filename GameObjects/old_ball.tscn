@@ -1,10 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://n1820j3cmpgx"]
+[gd_scene load_steps=5 format=3 uid="uid://ceeheijlf7jxm"]
 
-[ext_resource type="Script" uid="uid://c0j1q5o4jfceh" path="res://GameObjects/ball.gd" id="1_s2pte"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s2pte"]
-friction = 0.0
-bounce = 1.0
+[ext_resource type="Script" uid="uid://dtqdmltx52jqg" path="res://GameObjects/old_ball.gd" id="1_uvmo8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v7grr"]
 size = Vector2(4, 4)
@@ -14,14 +10,8 @@ size = Vector2(4, 4)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1s3g2"]
 size = Vector2(4, 4)
 
-[node name="Ball2" type="RigidBody2D"]
-physics_material_override = SubResource("PhysicsMaterial_s2pte")
-gravity_scale = 0.0
-lock_rotation = true
-contact_monitor = true
-max_contacts_reported = 10
-angular_damp_mode = 1
-script = ExtResource("1_s2pte")
+[node name="OldBall" type="StaticBody2D"]
+script = ExtResource("1_uvmo8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_v7grr")
