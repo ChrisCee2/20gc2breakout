@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://4s3c3jccgd3e"]
 
 [ext_resource type="Script" uid="uid://dhaux4vhb4ktj" path="res://UI/game_end_text.gd" id="1_ybom2"]
-[ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="2_xdmil"]
+[ext_resource type="FontFile" uid="uid://xywom0au1i2y" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="2_xdmil"]
 
 [node name="GameEndText" type="Control"]
 z_index = 100

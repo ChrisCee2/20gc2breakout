@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://xywom0au1i2y"
-path="res://.godot/imported/PixelatedEleganceRegular-ovyAA.ttf-a793ce469cff4adc82fd7d3a6500b9fb.fontdata"
+path="res://.godot/imported/PixelatedEleganceRegular-ovyAA.ttf-90bb102cdfb3cf8b154b0d94916ec40b.fontdata"
 
 [deps]
 
-source_file="res://GameObjects/PixelatedEleganceRegular-ovyAA.ttf"
-dest_files=["res://.godot/imported/PixelatedEleganceRegular-ovyAA.ttf-a793ce469cff4adc82fd7d3a6500b9fb.fontdata"]
+source_file="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf"
+dest_files=["res://.godot/imported/PixelatedEleganceRegular-ovyAA.ttf-90bb102cdfb3cf8b154b0d94916ec40b.fontdata"]
 
 [params]
 

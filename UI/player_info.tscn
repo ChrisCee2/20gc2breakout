@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=4 uid="uid://buoa3ofee5xnx"]
 
 [ext_resource type="Script" uid="uid://cyll7ab8v304s" path="res://UI/player_info.gd" id="1_2746d"]
-[ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="1_hw6tf"]
+[ext_resource type="FontFile" uid="uid://xywom0au1i2y" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="1_hw6tf"]
 
 [sub_resource type="Image" id="Image_5wkee"]
 data = {
