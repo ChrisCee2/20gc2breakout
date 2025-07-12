@@ -10,7 +10,7 @@ signal new_round
 @export_group("UI")
 @export var score_label: Label
 @export var high_score_label: Label
-@export var ui_control: Control
+@export var game_end_control: Control
 @export var game_end_label: Label
 @export var return_to_menu_label: Label
 @export var pause_menu: Control
@@ -112,7 +112,7 @@ func is_game_finished() -> bool:
 
 func end() -> void:
 	AudioManager.play_audio(game_end_tune)
-	ui_control.show()
+	game_end_control.show()
 	var win_text: String = game_end_text % score["Player 1"]
 	if score["Player 1"] > high_score:
 		save_score()
@@ -126,7 +126,7 @@ func end() -> void:
 	game_ended = true
 
 func reset() -> void:
-	ui_control.hide()
+	game_end_control.hide()
 	ball.show()
 	restart_round()
 	is_started = true
@@ -136,6 +136,10 @@ func reset() -> void:
 
 func restart_round() -> void:
 	current_speed_multiplier = speed_multiplier
+	ball.current_speed_multiplier = current_speed_multiplier
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			paddle.current_speed_multiplier = current_speed_multiplier
 	ball.restart()
 	ball.stop()
 	round_timer.start(round_start_time)
@@ -172,7 +176,10 @@ func update_lives_label() -> void:
 
 func _on_bounce() -> void:
 	current_speed_multiplier = speed_multiplier + (speed_increment * score["Player 1"])
-	ball.linear_velocity = ball.linear_velocity.normalized() * ball.start_speed * current_speed_multiplier
+	ball.current_speed_multiplier = current_speed_multiplier
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			paddle.current_speed_multiplier = current_speed_multiplier
 
 func _on_brick_break() -> void:
 	score["Player 1"] += 1
