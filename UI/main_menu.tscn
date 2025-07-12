@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cllxsa6m2y0ri"]
 
-[ext_resource type="Script" uid="uid://cfuvajoles0sp" path="res://Menus/main_menu.gd" id="1_7vrkn"]
+[ext_resource type="Script" uid="uid://cfuvajoles0sp" path="res://UI/main_menu.gd" id="1_7vrkn"]
 [ext_resource type="FontFile" uid="uid://dr3br7v5uupkw" path="res://Assets/Fonts/PixelatedEleganceRegular-ovyAA.ttf" id="2_fu7sn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p3jrs"]

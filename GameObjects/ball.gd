@@ -4,12 +4,14 @@ signal bounce
 signal bounce_paddle
 signal bounce_brick
 
-@export var start_speed: float = 60.0
+@export var speed: float = 60.0
 @export var start_position: Vector2 = Vector2(0, 0)
 @export var start_direction: Vector2 = Vector2.UP
 @export_range(1, 89) var max_start_angle: float = 60
 
 @onready var sprite: Sprite2D = $Sprite2D
+
+var current_speed_multiplier: float = 1
 
 var bounce_sfx = preload("res://Assets/SFX/BounceSFX.wav")
 var paddle_bounce_sfx = preload("res://Assets/SFX/PaddleBounceSFX.wav")
@@ -30,7 +32,7 @@ func restart() -> void:
 	var angle = start_direction.angle() + deg_to_rad(randf_range(-max_start_angle, max_start_angle))
 	var x = cos(angle)
 	var y = sin(angle)
-	linear_velocity = start_speed * Vector2(x, y).normalized()
+	linear_velocity = speed * Vector2(x, y).normalized()
 	start()
 
 func get_size() -> Vector2:
@@ -48,4 +50,4 @@ func handle_collision(collision: Node) -> void:
 		if collision is Brick:
 			emit_signal("bounce_brick")
 			collision.queue_free()
-	linear_velocity = linear_velocity.length() * direction
+	linear_velocity = direction * speed * current_speed_multiplier

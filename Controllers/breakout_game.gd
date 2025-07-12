@@ -8,14 +8,9 @@ signal new_round
 @export var paddles: Node
 
 @export_group("UI")
-@export var score_label: Label
-@export var high_score_label: Label
-@export var ui_control: Control
-@export var game_end_label: Label
-@export var return_to_menu_label: Label
+@export var game_end_text: GameEndText
 @export var pause_menu: Control
-@export var lives_label: Label
-@export var player_info_control: Control
+@export var player_info: PlayerInfo
 @export var player_info_offset: Vector2 = Vector2(0, 40)
 
 @onready var round_timer: Timer = $RoundTimer
@@ -31,7 +26,7 @@ var is_paused = false
 var round_ended = true
 var initial_score: Dictionary = {"Player 1": 0, "Player 2": 0}
 var score: Dictionary = initial_score.duplicate()
-var game_end_text = "You broke %s bricks!"
+var score_text = "You broke %s bricks!"
 var return_to_menu_text = "[%s] to go back"
 
 var paddle_hits: int = 0
@@ -39,6 +34,7 @@ var speed_multiplier: float = 1.0
 var current_speed_multiplier: float = speed_multiplier
 var speed_increment: float = 0.02
 
+@export_group("Game Settings")
 @export var lives: int = 3
 var current_lives: int = 0
 
@@ -48,7 +44,7 @@ var high_score_text: String = "High score! "
 
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
-	player_info_control.global_position += player_info_offset
+	player_info.global_position += player_info_offset
 	ball.bounce.connect(_on_bounce)
 	ball.bounce_paddle.connect(_on_bounce)
 	ball.bounce_brick.connect(_on_brick_break)
@@ -103,7 +99,7 @@ func physics_update() -> void:
 				paddle.physics_update(arena.get_left_bound(), arena.get_right_bound())
 
 func update_score() -> void:
-	score_label.text = str(score["Player 1"])
+	player_info.score_label.text = str(score["Player 1"])
 
 func is_game_finished() -> bool:
 	if arena.is_bricks_empty() or current_lives == 0:
@@ -112,21 +108,21 @@ func is_game_finished() -> bool:
 
 func end() -> void:
 	AudioManager.play_audio(game_end_tune)
-	ui_control.show()
-	var win_text: String = game_end_text % score["Player 1"]
+	game_end_text.show()
+	var win_text: String = score_text % score["Player 1"]
 	if score["Player 1"] > high_score:
 		save_score()
 		win_text = high_score_text + win_text
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = win_text
-	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
+	game_end_text.game_end_label.text = win_text
+	game_end_text.return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
 	is_started = false
 	game_ended = true
 
 func reset() -> void:
-	ui_control.hide()
+	game_end_text.hide()
 	ball.show()
 	restart_round()
 	is_started = true
@@ -136,6 +132,10 @@ func reset() -> void:
 
 func restart_round() -> void:
 	current_speed_multiplier = speed_multiplier
+	ball.current_speed_multiplier = current_speed_multiplier
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			paddle.current_speed_multiplier = current_speed_multiplier
 	ball.restart()
 	ball.stop()
 	round_timer.start(round_start_time)
@@ -168,11 +168,14 @@ func _on_round_timer_ended() -> void:
 		ball.start()
 
 func update_lives_label() -> void:
-	lives_label.text = str(current_lives)
+	player_info.lives_label.text = str(current_lives)
 
 func _on_bounce() -> void:
 	current_speed_multiplier = speed_multiplier + (speed_increment * score["Player 1"])
-	ball.linear_velocity = ball.linear_velocity.normalized() * ball.start_speed * current_speed_multiplier
+	ball.current_speed_multiplier = current_speed_multiplier
+	for paddle in paddles.get_children():
+		if paddle is Paddle:
+			paddle.current_speed_multiplier = current_speed_multiplier
 
 func _on_brick_break() -> void:
 	score["Player 1"] += 1
@@ -203,4 +206,4 @@ func load_score() -> void:
 		
 		var data = json.data
 		high_score = data["score"]
-		high_score_label.text = str(high_score)
+		player_info.high_score_label.text = str(high_score)
