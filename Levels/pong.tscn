@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://drbaq2tlqbfdp" path="res://Levels/pong.gd" id="1_7rnn0"]
 [ext_resource type="PackedScene" uid="uid://cmj72wcqr5vpe" path="res://GameObjects/arena.tscn" id="2_axg6w"]
-[ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/ball.tscn" id="3_7rnn0"]
+[ext_resource type="PackedScene" uid="uid://ceeheijlf7jxm" path="res://GameObjects/old_ball.tscn" id="3_7rnn0"]
 [ext_resource type="PackedScene" uid="uid://b53hcff8gnb10" path="res://GameObjects/paddle.tscn" id="4_5qs3y"]
 [ext_resource type="PackedScene" uid="uid://dit4mko8nly5r" path="res://InputMachines/CharacterInput.tscn" id="5_4clcx"]
 [ext_resource type="PackedScene" uid="uid://bal8erhwgntb8" path="res://InputMachines/computer_input.tscn" id="6_7rnn0"]

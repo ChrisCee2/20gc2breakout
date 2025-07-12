@@ -172,6 +172,7 @@ func update_lives_label() -> void:
 
 func _on_bounce() -> void:
 	current_speed_multiplier = speed_multiplier + (speed_increment * score["Player 1"])
+	ball.linear_velocity = ball.linear_velocity.normalized() * ball.start_speed * current_speed_multiplier
 
 func _on_brick_break() -> void:
 	score["Player 1"] += 1
