@@ -9,6 +9,7 @@ signal new_round
 
 @export_group("UI")
 @export var score_label: Label
+@export var high_score_label: Label
 @export var ui_control: Control
 @export var game_end_label: Label
 @export var return_to_menu_label: Label
@@ -41,6 +42,10 @@ var speed_increment: float = 0.02
 @export var lives: int = 3
 var current_lives: int = 0
 
+var score_file_path: String = "user://high_score.dat"
+var high_score: int = 0
+var high_score_text: String = "High score! "
+
 func _ready() -> void:
 	round_timer.timeout.connect(_on_round_timer_ended)
 	player_info_control.global_position += player_info_offset
@@ -49,6 +54,7 @@ func _ready() -> void:
 	ball.bounce_brick.connect(_on_brick_break)
 
 func start() -> void:
+	load_score()
 	current_lives = lives
 	update_lives_label()
 	pause_menu.hide()
@@ -107,8 +113,12 @@ func is_game_finished() -> bool:
 func end() -> void:
 	AudioManager.play_audio(game_end_tune)
 	ui_control.show()
+	var win_text: String = game_end_text % score["Player 1"]
+	if score["Player 1"] > high_score:
+		save_score()
+		win_text = high_score_text + win_text
 	var return_to_menu_key: String = "Space"
-	game_end_label.text = game_end_text % score["Player 1"]
+	game_end_label.text = win_text
 	return_to_menu_label.text = return_to_menu_text % return_to_menu_key
 	ball.stop()
 	ball.hide()
@@ -172,3 +182,24 @@ func _on_brick_break() -> void:
 			var paddle_size: Vector2 = paddle.start_size
 			paddle.update_size(Vector2(paddle_size.x * paddle_width_percentage, paddle_size.y))
 	_on_bounce()
+
+func save_score() -> void:
+	var save_file = FileAccess.open(score_file_path, FileAccess.WRITE)
+	var score_map = {"score": score["Player 1"]}
+	save_file.store_line(JSON.stringify(score_map))
+
+func load_score() -> void:
+	if not FileAccess.file_exists(score_file_path):
+		return
+	
+	var json = JSON.new()
+	var save_file = FileAccess.open(score_file_path, FileAccess.READ)
+	while save_file.get_position() < save_file.get_length():
+		var json_string = save_file.get_line()
+		var result = json.parse(json_string)
+		if not result == OK:
+			return
+		
+		var data = json.data
+		high_score = data["score"]
+		high_score_label.text = str(high_score)

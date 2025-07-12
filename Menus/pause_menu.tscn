@@ -8,7 +8,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at0u2"]
 
 [node name="PauseMenu" type="Control"]
-z_index = 100
+z_index = 1001
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15

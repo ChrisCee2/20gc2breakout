@@ -182,6 +182,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
+mouse_filter = 2
 
 [node name="GridContainer" type="GridContainer" parent="WinControl"]
 texture_filter = 1
@@ -201,6 +202,8 @@ grow_vertical = 0
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("8_2likq")
 theme_override_font_sizes/font_size = 9
 horizontal_alignment = 1
@@ -210,6 +213,8 @@ vertical_alignment = 1
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("8_2likq")
 theme_override_font_sizes/font_size = 9
 horizontal_alignment = 1
@@ -229,11 +234,12 @@ game = NodePath("../BreakoutGame")
 arena = NodePath("../Arena")
 start_position = Vector2(0, 40)
 
-[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "score_label", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu", "lives_label", "player_info_control") instance=ExtResource("8_5wkee")]
+[node name="BreakoutGame" parent="." node_paths=PackedStringArray("ball", "arena", "paddles", "score_label", "high_score_label", "ui_control", "game_end_label", "return_to_menu_label", "pause_menu", "lives_label", "player_info_control") instance=ExtResource("8_5wkee")]
 ball = NodePath("../Ball")
 arena = NodePath("../Arena")
 paddles = NodePath("../Paddles")
-score_label = NodePath("../PlayerInfo/GridContainer/ScoreLabel")
+score_label = NodePath("../PlayerInfo/GridContainer/GridContainer/ScoreLabel")
+high_score_label = NodePath("../PlayerInfo/GridContainer/GridContainer/HighScoreLabel")
 ui_control = NodePath("../WinControl")
 game_end_label = NodePath("../WinControl/GridContainer/GameEndLabel")
 return_to_menu_label = NodePath("../WinControl/GridContainer/ReturnToMenuLabel")
@@ -242,6 +248,7 @@ lives_label = NodePath("../PlayerInfo/GridContainer/LivesLabel")
 player_info_control = NodePath("../PlayerInfo")
 
 [node name="PlayerInfo" type="Control" parent="."]
+z_index = -100
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -250,6 +257,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="GridContainer" type="GridContainer" parent="PlayerInfo"]
 layout_mode = 1
@@ -262,20 +270,30 @@ offset_left = -2.0
 offset_right = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="ScoreLabel" type="Label" parent="PlayerInfo/GridContainer"]
-z_index = -1000
+[node name="GridContainer" type="GridContainer" parent="PlayerInfo/GridContainer"]
+layout_mode = 2
+mouse_filter = 2
+columns = 2
+
+[node name="ScoreLabel" type="Label" parent="PlayerInfo/GridContainer/GridContainer"]
 texture_filter = 1
 layout_mode = 2
-theme_override_colors/font_color = Color(0.140447, 0.140447, 0.140447, 1)
+theme_override_colors/font_color = Color(0.122252, 0.122252, 0.122252, 1)
 theme_override_fonts/font = ExtResource("8_2likq")
 theme_override_font_sizes/font_size = 45
 text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="PlayerInfo/GridContainer/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18359, 0.18359, 0.18359, 1)
+theme_override_fonts/font = ExtResource("8_2likq")
+theme_override_font_sizes/font_size = 27
+text = "0"
 
 [node name="LivesLabel" type="Label" parent="PlayerInfo/GridContainer"]
-z_index = -1000
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.596144, 0.837846, 0.484995, 1)
