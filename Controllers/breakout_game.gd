@@ -65,7 +65,7 @@ func start() -> void:
 func update() -> void:
 	if game_ended and Input.is_action_just_released("return_to_menu"):
 		AudioManager.play_audio(select_sfx)
-		get_tree().change_scene_to_file("res://Menus/main_menu.tscn")
+		get_tree().change_scene_to_file("res://UI/main_menu.tscn")
 	
 	if not game_ended and Input.is_action_just_pressed("pause"):
 		pause() if not is_paused else resume()

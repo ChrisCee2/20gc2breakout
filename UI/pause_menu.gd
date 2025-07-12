@@ -20,7 +20,7 @@ func _ready() -> void:
 
 func return_to_main_menu() -> void:
 	AudioManager.play_audio(select_sfx)
-	get_tree().change_scene_to_file("res://Menus/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/main_menu.tscn")
 
 func resume_game() -> void:
 	game.resume()
